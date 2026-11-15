@@ -48,3 +48,21 @@ def test_diagnostics_do_not_expose_driver_messages():
     assert failure_code(RuntimeError("secret detail")) == (
         "database_connection_failed_details_suppressed"
     )
+
+
+def test_malformed_password_cannot_be_sent_as_part_of_a_hostname():
+    with pytest.raises(ConnectionConfigurationError, match="password_encoding"):
+        supabase_url("postgresql://user:dummy@fragment@aws-0-example.pooler.supabase.com/postgres")
+
+
+def test_endpoint_report_contains_only_boolean_metadata(monkeypatch):
+    from investment_engine.hosted_database import endpoint_diagnostics
+
+    monkeypatch.setattr("investment_engine.hosted_database.socket.getaddrinfo", lambda *a, **k: [1])
+    report = endpoint_diagnostics(
+        "postgresql://user:dummy@aws-0-ap-south-1.pooler.supabase.com:5432/postgres",
+        "aws-0-ap-south-1.pooler.supabase.com",
+    )
+    assert report["saved_hostname_matches_expected"]
+    assert report["expected_hostname_resolves"]
+    assert all(type(value) is bool for value in report.values())

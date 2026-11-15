@@ -20,4 +20,5 @@ jobs:
       - name: Read-only database and verified TLS check
         env:
           PAPER_DATABASE_URL: ${{ secrets.PAPER_DATABASE_URL }}
+          SUPABASE_EXPECTED_HOST: aws-0-ap-south-1.pooler.supabase.com
         run: uv run --no-dev python scripts/check_supabase.py

@@ -4,17 +4,22 @@ import json
 import os
 import sys
 
-from investment_engine.hosted_database import check_connection, failure_code
+from investment_engine.hosted_database import check_connection, endpoint_diagnostics, failure_code
 
 
 def main() -> int:
     secret = os.environ.get("PAPER_DATABASE_URL", "")
+    diagnostics: dict[str, bool] = {}
     try:
-        report = check_connection(secret)
+        expected_host = os.environ.get("SUPABASE_EXPECTED_HOST", "")
+        if expected_host:
+            diagnostics = endpoint_diagnostics(secret, expected_host)
+        report = {**check_connection(secret), **diagnostics}
         print(json.dumps(report))
         return 0
     except Exception as error:
         report = {
+            **diagnostics,
             "status": "blocked",
             "secret_present": bool(secret),
             "reason": failure_code(error),

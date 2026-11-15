@@ -1,5 +1,7 @@
 """Read-only hosted PostgreSQL readiness check with credential-safe diagnostics."""
 
+import re
+import socket
 from typing import Any
 
 from sqlalchemy import Engine, create_engine, text
@@ -22,6 +24,8 @@ def supabase_url(value: str) -> URL:
     host = (url.host or "").lower()
     if not (host.endswith(".pooler.supabase.com") or host.endswith(".supabase.co")):
         raise ConnectionConfigurationError("expected_supabase_database_host")
+    if not re.fullmatch(r"[a-z0-9.-]+", host):
+        raise ConnectionConfigurationError("invalid_database_hostname_check_password_encoding")
     if not url.username or not url.password or not url.database:
         raise ConnectionConfigurationError("incomplete_connection_uri")
     if "[YOUR-PASSWORD]" in url.password or "[your-password]" in url.password:
@@ -87,3 +91,23 @@ def check_connection(value: str) -> dict[str, Any]:
             }
     finally:
         db.dispose()
+
+
+def endpoint_diagnostics(value: str, expected_host: str) -> dict[str, bool]:
+    """Return only booleans, never the hostname parsed from a secret or its credentials."""
+    url = supabase_url(value)
+    if not re.fullmatch(r"[a-z0-9.-]+\.pooler\.supabase\.com", expected_host):
+        raise ConnectionConfigurationError("invalid_expected_pooler_hostname")
+
+    def resolves(host: str) -> bool:
+        try:
+            return bool(socket.getaddrinfo(host, 5432, type=socket.SOCK_STREAM))
+        except OSError:
+            return False
+
+    return {
+        "saved_hostname_matches_expected": url.host == expected_host,
+        "expected_hostname_resolves": resolves(expected_host),
+        "saved_hostname_resolves": resolves(url.host or ""),
+        "saved_endpoint_is_direct": bool(url.host and url.host.endswith(".supabase.co")),
+    }
