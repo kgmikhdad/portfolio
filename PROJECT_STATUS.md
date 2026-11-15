@@ -36,7 +36,7 @@ reconciliation is unresolved; no stock has been guessed or silently marked eligi
 
 | Release | Current state | Implemented | Remaining acceptance work |
 |---|---|---|---|
-| 1 Operational foundation | Tested locally; partial | Package/lock, migrations, persistent ledger, risk controls, CLI, source adapters, CI and opt-in schedule definitions | Verify private GitHub, remote CI, persistent hosted DB, genuine authorized ingestion, operational scheduling |
+| 1 Operational foundation | Tested locally; partial | Package/lock, migrations, persistent ledger, risk controls, CLI, source adapters, CI and opt-in schedule definitions | Full-universe ingestion, hosted runtime/dashboard wiring and operational scheduling |
 | 2 Research data | Partial; integration blocked | ISIN validation/import, expiring memberships, receipt/publication revisions, hashes, Parquet, taxonomy, split accounting | Official calendars/history/universe, corporate-disclosure parsers, complete actions/dividend entitlement, source licences/coverage |
 | 3 Baseline strategy | Tested on synthetic fixtures; partial | Technical features, selected fundamental ratios, momentum simulation, costs/cash/constraints, summary metrics | Complete feature library, realistic fee schedule/settlement, archived historical eligibility, TRI/passive/Sheet baselines, uncertainty/attribution |
 | 4 Adaptive ML | Experimental utilities tested | Purged/embargoed folds, ridge ranking, lineage schema and promotion gate | Real horizon targets, calibrated uncertainty, conditional factor weighting, ablations, trained models, independent OOS/prospective evaluation |
@@ -229,3 +229,35 @@ verification-enforcement tests. Application migrations, hosted account initializ
 transfer have not been performed. The existing local portfolio is unchanged, and no hosted
 trade or scheduled investment pipeline was activated. Next implementation step: prepare and
 apply the application schema safely, then initialize/reconcile the hosted paper account.
+
+
+## Hosted application schema and paper account initialized
+
+User explicitly authorized applying the application schema and initializing the hosted
+INR 100000 paper account. Deployment code commit: 7019019.
+
+- First real Supabase deployment PASSED:
+  https://github.com/kgmikhdad/portfolio/actions/runs/43694486562
+- A second real deployment PASSED and returned account_created=false, confirming rerun safety:
+  https://github.com/kgmikhdad/portfolio/actions/runs/43694594593
+- Schema: investment_engine. Verified 20 application tables plus alembic_version (21 total),
+  migration head deae7794b285. Original migration revision files were left unchanged.
+- Hosted account paper was created with INR 100000 (10000000 paise), one opening-deposit ledger
+  entry, no holdings/orders, and emergency stop active. Initial deposit and cash/quantity
+  reconciliation passed, including an independent read-only check after transaction commit.
+- Both runs verified RLS enabled and PUBLIC/anon/authenticated schema access revoked.
+  Supabase built-in Auth/Storage/public tables were not changed. Schema ownership markers
+  and unexpected-table guards prevent claiming or overwriting unrelated existing schemas.
+- Advisory lock plus one transaction covers namespace, migrations, permissions and initial
+  deposit. Local PostgreSQL tests verify reruns preserve changed balances, initial deposit
+  remains unique, unrelated schemas are preserved and a failure rolls back migrations.
+- Local PostgreSQL: **64 tests passed**. SQLite: **61 passed, 3 PostgreSQL-only tests skipped**.
+  Lint, format, strict typing, actionlint and existing-schema Alembic checks passed.
+- GitHub CI passed: https://github.com/kgmikhdad/portfolio/actions/runs/43694463284 .
+- No trade was executed, live execution remains disabled, and no investment schedule enabled.
+
+Inspect in Supabase Table Editor by selecting schema investment_engine, then accounts/ledger.
+This completes hosted storage initialization only. Local Yahoo price archives were not moved;
+the current downloaded Atlas snapshot remains based on the published Sheet. Next work is
+hosted data ingestion, runtime/dashboard wiring and subsequent baseline research validation.
+No additional Supabase credential change is required for the completed deployment.
