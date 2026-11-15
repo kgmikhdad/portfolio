@@ -154,3 +154,26 @@ If password characters cause malformed URI parsing, download and open
 database password only in that local page, copy the correctly encoded URI into the GitHub
 secret, clear the fields and close it. It has no network requests, no storage and no analytics.
 Never send its generated URI or entered password through chat.
+
+
+## Initialize the hosted paper database
+
+GitHub **Actions → Initialize Supabase paper database → Run workflow** securely uses the
+existing `paper` environment's `PAPER_DATABASE_URL` and pinned Supabase CA. This manual-only
+workflow applies Alembic migrations inside the private `investment_engine` schema, initializes
+the INR 100000 paper account with its emergency stop active, and verifies committed ledger state.
+
+One transaction and an advisory lock cover schema creation, migrations, permission changes and
+the opening deposit. A schema ownership marker and expected-table checks refuse unknown existing
+data. Reruns preserve existing balances and never duplicate the initial deposit. An existing
+account with its emergency stop turned off requires review rather than being reset automatically.
+
+Row-level security is enabled; PUBLIC/anon/authenticated access is revoked and checked. Supabase
+Auth/Storage/public tables are untouched. In Supabase Table Editor choose schema
+`investment_engine`, then `accounts` or `ledger`. Money is stored in paise: 10000000 = INR 100000.
+The internal Supabase role used for deployment owns these tables; dedicated least-privilege
+runtime-role configuration remains a later deployment step.
+
+Initialization does not transfer local price archives, connect the downloaded Atlas page to
+Supabase, execute orders or activate schedules. Keep PAPER_PIPELINE_ENABLED unset until the
+application runtime is wired to this schema and the verified TLS connection.
