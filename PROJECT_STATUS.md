@@ -169,3 +169,24 @@ password into chat. After diagnosis/correction, rerun Check Supabase connection.
 Local lint/format/type checks and all **55 tests** pass, including nine new credential-safe
 configuration/diagnostic tests. The manual connection-check workflow passes actionlint.
 The production scheduler and local database configuration remain unchanged.
+
+
+### Supabase endpoint-format diagnosis
+
+User supplied the non-secret Session pooler Host aws-0-ap-south-1.pooler.supabase.com.
+Local DNS is unavailable even for GitHub, so local resolver failure is not evidence against
+this Supabase host. A further GitHub Actions check validates the parsed URI host before any
+network request. It reports `secret_present: true` and
+`invalid_database_hostname_check_password_encoding`. This supersedes the earlier generic
+DNS error: the saved URI is being parsed with reserved/invalid characters in the host.
+An unencoded password delimiter is one possible cause; actual credentials were not inspected.
+
+Evidence: https://github.com/kgmikhdad/portfolio/actions/runs/43692598668 .
+The user must replace the URI securely with a correctly assembled/encoded Session pooler URI.
+The provided tools/supabase_connection_helper.html builds it entirely in the owner's browser,
+with network access prohibited by CSP. It never stores/transmits credentials. A headless browser
+check verified special-character encoding, clearing fields, and zero network requests using
+only dummy inputs. No real user password was entered into agent tools.
+
+The connection checker now rejects malformed hosts before DNS, and can report only boolean
+endpoint comparisons. Local lint/type checks and **57 tests** pass. No schema/trade changes.

@@ -148,3 +148,9 @@ or places orders. Only safe success/failure categories are logged.
 GitHub secret-listing permissions are not required: the job receives the environment secret
 directly. A successful check establishes connectivity, not completion of database migrations,
 data migration, hosted dashboard wiring or activation of research/trading schedules.
+
+If password characters cause malformed URI parsing, download and open
+`tools/supabase_connection_helper.html` locally. Enter the Session pooler User and existing
+database password only in that local page, copy the correctly encoded URI into the GitHub
+secret, clear the fields and close it. It has no network requests, no storage and no analytics.
+Never send its generated URI or entered password through chat.
