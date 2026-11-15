@@ -1,5 +1,6 @@
 import json
 import time
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -10,7 +11,7 @@ import pyarrow.parquet as pq
 from sqlalchemy import Engine, select
 
 from investment_engine.broker import initialize, reconcile
-from investment_engine.data import DataUnavailable, digest, point_in_time_bars
+from investment_engine.data import IST, DataUnavailable, digest, point_in_time_bars
 from investment_engine.db import transaction
 from investment_engine.features import technical
 from investment_engine.models import (
@@ -20,6 +21,7 @@ from investment_engine.models import (
     Feature,
     Holding,
     Job,
+    MarketSession,
     Membership,
     Order,
     Security,
@@ -68,6 +70,12 @@ def daily_research(db: Engine, account_id: str, at: int) -> dict[str, Any]:
             securities = session.scalars(select(Security).order_by(Security.isin)).all()
             if not securities:
                 raise DataUnavailable("Security master is empty; verified universe required")
+            day = datetime.fromtimestamp(at, IST).date().isoformat()
+            market = session.get(MarketSession, day)
+            if market is None or not market.verified:
+                raise DataUnavailable("Verified exchange session calendar required")
+            if at < market.closes_at + 300:
+                raise DataUnavailable("After-market source finalization window not reached")
             for security in securities:
                 bars = point_in_time_bars(session, security.isin, at)
                 membership = session.scalar(

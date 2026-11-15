@@ -10,16 +10,16 @@ strategy exists.** Full scope: [requirements](docs/PROJECT_REQUIREMENTS.md).
 - Local PostgreSQL 17 Docker service healthy; two Alembic migrations applied. `alembic check`
   reports no ungenerated schema changes. A ₹1,00,000 cash-only paper account is persistent,
   with emergency stop active and zero orders. Real-money interface always raises.
-- `uv run python scripts/check.py --postgres`: lint, format, strict mypy pass; **41 tests pass**.
+- `uv run python scripts/check.py --postgres`: lint, format, strict mypy pass; **42 tests pass**.
   Tests cover concurrent duplicate orders, transaction rollback, no negative cash/shorting,
   8% stock / 25% sector limits, participation, stale/future prices, eligibility, fees/basis,
   P&L/NAV reconciliation, splits, PIT revisions, purging, deterministic backtests, research
   gates, event failure isolation, reference integrity, encryption and provider failure controls.
 - Gymnasium environment contract passes on synthetic data. Its intentionally unbounded Box
   observation space produces two checker warnings; no policy was trained or approved.
-- SQLite portability suite: 41 tests pass (same synthetic fixtures; not 82 distinct tests).
+- SQLite portability suite: 42 tests pass (same synthetic fixtures; not 84 distinct tests).
 - Dependency audit after upgrading cryptography to 50.0.2: no known vulnerabilities found.
-  Source secret scan: no leaks found. Full Git-history scan follows the first commit.
+  Source and initial full Git-history scans: no leaks found.
 - Encrypted PostgreSQL backup restored into a separate temporary database; account, ledger,
   order, price counts and schema revision match. Drill database removed; source unchanged.
   Backup/key remain ignored local artifacts. No Google Drive backup upload performed.
@@ -60,8 +60,16 @@ reconciliation is unresolved; no stock has been guessed or silently marked eligi
 
 ## GitHub delivery and schedules
 
-Implementation branch/commit, push verification and history scan are recorded below after
-those operations. CI and research YAML files exist locally; no remote job success is claimed.
+Initial foundation commit: [dc584b6bdca7b094a59fb87a768c15d5c8759efa](https://github.com/kgmikhdad/portfolio/commit/dc584b6bdca7b094a59fb87a768c15d5c8759efa),
+pushed to `main` and independently verified using `git ls-remote`. Follow-up implementation
+adds verified after-market timing, successful/repeatable screening checks and a CLI for isolated
+backtests; see branch history for its exact commit. Both GitHub workflow definitions pass
+`actionlint` 1.7.7 locally. Remote CI execution remains unverified because the API is blocked.
+Repeated bootstrap preserved the local database/account and active emergency stop. A second
+encrypted restore drill also passed after the crypto upgrade. Required `install_script` and
+`start_skill` were saved in the environment draft, along with network additions; publication
+and fresh-task restoration remain unverified.
+
 The cron is 16:00 IST weekdays; the job is disabled unless PAPER_PIPELINE_ENABLED is true.
 It performs research only, requires an explicit persistent database secret, and cannot trade.
 

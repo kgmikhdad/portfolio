@@ -151,3 +151,76 @@ def health(account: str = "paper") -> None:
     output(result)
     if result["status"] != "healthy":
         raise typer.Exit(3)
+
+
+@app.command()
+def backtest(start: str, end: str, dataset_label: str, destination: Path) -> None:
+    """Run an isolated historical baseline from already-ingested, provenance-preserved inputs."""
+    from investment_engine.backtest import run
+    from investment_engine.data import digest
+    from investment_engine.models import (
+        BacktestRun,
+        Bar,
+        Base,
+        CorporateAction,
+        MarketSession,
+        Membership,
+    )
+
+    source = engine(settings().database_url.get_secret_value())
+    isolated = engine("sqlite:///:memory:")
+    Base.metadata.create_all(isolated)
+    try:
+        with transaction(source) as src, transaction(isolated) as target:
+            for model in (Security, Membership, MarketSession, Bar, CorporateAction):
+                rows = src.scalars(select(model)).all()
+                target.add_all(
+                    model(**{c.name: getattr(row, c.name) for c in model.__table__.columns})
+                    for row in rows
+                )
+                target.flush()
+            days = target.scalars(
+                select(MarketSession.day)
+                .where(
+                    MarketSession.day >= date.fromisoformat(start).isoformat(),
+                    MarketSession.day <= date.fromisoformat(end).isoformat(),
+                )
+                .order_by(MarketSession.day)
+            ).all()
+            if len(days) < 2:
+                raise DataUnavailable("At least two verified archived exchange sessions required")
+            result = run(target, list(days), dataset_label)
+        identifier = digest(
+            {
+                "dataset": result["dataset_hash"],
+                "start": start,
+                "end": end,
+                "costs": result["cost_assumptions"],
+                "baseline": "momentum20-v1",
+            }
+        )
+        with transaction(source) as src:
+            if src.get(BacktestRun, identifier) is None:
+                src.add(
+                    BacktestRun(
+                        id=identifier,
+                        dataset_hash=result["dataset_hash"],
+                        configuration={"start": start, "end": end, "baseline": "momentum20-v1"},
+                        results=json.loads(json.dumps(result, default=str)),
+                    )
+                )
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(json.dumps(result, default=str, indent=2))
+        output(
+            {
+                "status": "research_only",
+                "backtest_id": identifier,
+                "destination": str(destination),
+                "metrics": result["metrics"],
+            }
+        )
+    except DataUnavailable as error:
+        output({"status": "blocked", "reason": str(error)})
+        raise typer.Exit(3) from error
+    finally:
+        isolated.dispose()

@@ -24,6 +24,15 @@ uv run python scripts/restore_drill.py
 ```
 
 `invest init` is idempotent and creates ₹1,00,000 cash with the emergency stop active.
+After verified archival inputs have been ingested, run an isolated research backtest with:
+
+```sh
+uv run invest backtest 2025-01-01 2026-10-31 operator-reviewed-archive var/backtest.json
+```
+
+It requires explicit exchange sessions and PIT observations; it never posts simulated backtest
+trades into the paper account. Empty/invalid inputs block, and output is research-only.
+
 `invest daily` currently exits **3 (blocked)** when the verified universe, fresh observations
 or necessary action normalization are missing. That is expected in an unconnected setup.
 It screens research opportunities; it does not dispatch trades. `invest health` also exits 3

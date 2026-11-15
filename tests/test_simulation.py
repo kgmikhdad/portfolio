@@ -235,3 +235,24 @@ def test_gym_environment_contract_and_constraints(db):
     with pytest.raises(RuntimeError, match="Reset"):
         env.step(0)
     env.close()
+
+
+def test_after_market_pipeline_success_and_repeatability(db):
+    from investment_engine.models import Decision, Feature
+    from investment_engine.operations import daily_research
+
+    days = seed_backtest(db)
+    at = timestamp(days[-1], 15, 35)
+    first = daily_research(db, "paper", at)
+    second = daily_research(db, "paper", at)
+    assert first["status"] == second["status"] == "screened"
+    assert first["orders_executed"] == 0
+    assert first["candidates"][0]["status"] == "research_only"
+    with transaction(db) as session:
+        assert len(session.scalars(select(Feature)).all()) == 1
+        assert len(session.scalars(select(Decision)).all()) == 1
+        assert reconcile(session, "paper")["cash_paise"] == 10000000
+    from investment_engine.data import DataUnavailable
+
+    with pytest.raises(DataUnavailable, match="finalization"):
+        daily_research(db, "paper", timestamp(days[-1], 15))
