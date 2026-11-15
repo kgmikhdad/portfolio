@@ -2,8 +2,12 @@
 
 import re
 import socket
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
+from cryptography import x509
+from cryptography.hazmat.primitives import hashes
 from sqlalchemy import Engine, create_engine, text
 from sqlalchemy.engine import URL, make_url
 
@@ -36,12 +40,38 @@ def supabase_url(value: str) -> URL:
     return url.set(drivername="postgresql+psycopg", query={})
 
 
+SUPABASE_CA_SHA256 = "807025ad50d4ed219d2c9c7d299c004f824eb00cf7f65afef607d07b72e6cafa"
+SUPABASE_CA_PATH = Path(__file__).resolve().parents[2] / "config/tls/supabase-prod-ca-2021.crt"
+
+
+def validated_ca_file(path: Path = SUPABASE_CA_PATH) -> Path:
+    try:
+        contents = path.read_bytes()
+        if b"PRIVATE KEY" in contents or contents.count(b"-----BEGIN CERTIFICATE-----") != 1:
+            raise ValueError("Expected one public CA certificate")
+        cert = x509.load_pem_x509_certificate(contents)
+        if cert.fingerprint(hashes.SHA256()).hex() != SUPABASE_CA_SHA256:
+            raise ValueError("Unexpected CA fingerprint")
+        if not cert.extensions.get_extension_for_class(x509.BasicConstraints).value.ca:
+            raise ValueError("CA certificate required")
+        if not cert.not_valid_before_utc <= datetime.now(UTC) <= cert.not_valid_after_utc:
+            raise ValueError("CA validity period does not include current time")
+        cert.verify_directly_issued_by(cert)
+    except Exception:
+        raise ConnectionConfigurationError("supabase_ca_certificate_invalid_or_missing") from None
+    return path.resolve()
+
+
 def verified_engine(value: str) -> Engine:
     return create_engine(
         supabase_url(value),
         hide_parameters=True,
         echo=False,
-        connect_args={"sslmode": "verify-full", "sslrootcert": "system", "connect_timeout": 15},
+        connect_args={
+            "sslmode": "verify-full",
+            "sslrootcert": str(validated_ca_file()),
+            "connect_timeout": 15,
+        },
     )
 
 

@@ -66,3 +66,39 @@ def test_endpoint_report_contains_only_boolean_metadata(monkeypatch):
     assert report["saved_hostname_matches_expected"]
     assert report["expected_hostname_resolves"]
     assert all(type(value) is bool for value in report.values())
+
+
+def test_supplied_ca_is_valid_and_pinned():
+    from investment_engine.hosted_database import SUPABASE_CA_PATH, validated_ca_file
+
+    assert validated_ca_file() == SUPABASE_CA_PATH.resolve()
+
+
+def test_invalid_or_missing_ca_cannot_silently_fall_back(tmp_path):
+    from investment_engine.hosted_database import validated_ca_file
+
+    with pytest.raises(ConnectionConfigurationError, match="certificate_invalid_or_missing"):
+        validated_ca_file(tmp_path / "missing.crt")
+    invalid = tmp_path / "invalid.crt"
+    invalid.write_text("not a certificate")
+    with pytest.raises(ConnectionConfigurationError, match="certificate_invalid_or_missing"):
+        validated_ca_file(invalid)
+    invalid.write_text("-----BEGIN PRIVATE KEY-----\nnot-a-real-key\n-----END PRIVATE KEY-----")
+    with pytest.raises(ConnectionConfigurationError, match="certificate_invalid_or_missing"):
+        validated_ca_file(invalid)
+
+
+def test_engine_uses_supplied_ca_and_full_verification(monkeypatch):
+    from investment_engine.hosted_database import SUPABASE_CA_PATH, verified_engine
+
+    captured = {}
+
+    def fake_create(url, **kwargs):
+        captured.update(kwargs)
+        return None
+
+    monkeypatch.setattr("investment_engine.hosted_database.create_engine", fake_create)
+    verified_engine("postgresql://user:dummy@aws-0-ap-south-1.pooler.supabase.com:5432/postgres")
+    assert captured["connect_args"]["sslmode"] == "verify-full"
+    assert captured["connect_args"]["sslrootcert"] == str(SUPABASE_CA_PATH.resolve())
+    assert captured["hide_parameters"] is True
