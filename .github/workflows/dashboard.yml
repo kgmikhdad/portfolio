@@ -1,0 +1,33 @@
+name: Refresh workbook dashboard
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: published-workbook-refresh
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: main
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff
+        with:
+          version: "0.9.11"
+          python-version: "3.12"
+      - run: uv sync --frozen --no-dev
+      - run: uv run --no-dev python scripts/refresh_dashboard.py
+      - name: Commit only the authorized workbook mirror and dashboard
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/workbook/current.json data/workbook/workbook_snapshot.xlsx data/workbook/published_source.zip dashboard/index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "data: refresh published workbook dashboard"
+            git push origin HEAD:main
+          fi

@@ -9,6 +9,9 @@ Use Python 3.12 and `uv sync --frozen`. Set UV_CACHE_DIR to a writable directory
 sessions. See README.md for local PostgreSQL startup; credentials belong only in ignored
 .env or the runtime secret store. Never print credentials, full environments or private data.
 Do not commit var/, local data, dumps, credentials, keys or portfolio exports.
+The user explicitly authorized a versioned mirror of the published workbook under
+`data/workbook/` and its embedded research snapshot in `dashboard/index.html`. That exception
+does not authorize committing backend ledger/portfolio exports or publishing a public site.
 
 Run `uv run python scripts/check.py --postgres` for changes to accounting, risk or storage;
 run SQLite tests as well when changing portable storage behavior. Alembic migrations must

@@ -16,6 +16,8 @@ dependencies = [
   "gymnasium>=1.0,<2",
   "cryptography>=50,<51",
   "yfinance>=0.2.66,<2",
+  "openpyxl>=3.1.5,<4",
+  "lxml>=6.1,<7",
 ]
 
 [dependency-groups]

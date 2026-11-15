@@ -88,3 +88,48 @@ make a recommendation, verify Shariah membership, assign a sector or place an or
 Any detected dividend ex-dates remain unresolved evidence and are never credited as cash.
 The regular `invest ingest` command still uses the original direct-chart adapter and has
 separate permission/reference gates; this small probe does not enable the scheduled pipeline.
+
+
+## Interactive dashboard and workbook mirror
+
+- `dashboard/index.html`: self-contained interactive research website. Download the file and
+  open it in a modern browser; its stock explorer and workbook tabs need no server or sign-in.
+- `data/workbook/workbook_snapshot.xlsx`: Excel copy of all ten published tabs plus provenance.
+  It preserves displayed values, not the original Google formulas or full formatting.
+- `data/workbook/current.json`: structured source snapshot with all rows and hashes.
+- `data/workbook/published_source.zip`: original published HTML evidence for all source tabs.
+
+The user authorized these workbook files in the private repository. Backend holdings/ledger
+are not embedded or exported into Git. No public website or paid hosting was created.
+
+Search/filter by company, ticker, industry or decision; switch Swing/Position/Long-Term;
+inspect stock details; export filtered CSV; view every source tab. Existing Sheet heuristics
+are explicitly distinguished from approved models and paper executions. The workbook capital
+setting is INR 1000000; the separate backend paper account starts with INR 100000.
+
+To refresh the mirror after the published Sheet updates:
+
+```sh
+uv run python scripts/refresh_dashboard.py
+```
+
+Or open GitHub **Actions → Refresh workbook dashboard → Run workflow**. This manual-only
+workflow commits updated mirror files to main; it does not change Google Sheets, trade, or
+train models. Download the latest HTML again after refreshing. No automatic refresh schedule
+was activated. The page always shows its snapshot retrieval time.
+
+To show current backend cash, holdings and simulated executions, run:
+
+```sh
+uv run python scripts/serve_dashboard.py
+```
+
+Then browse port 8765 on that machine (127.0.0.1). The server binds locally and exposes only
+read endpoints. A standalone HTML copy has no backend connection and clearly says so. A
+permanent hosted URL would require an appropriate hosting/authentication connection.
+
+Validation: Python snapshot/parser/XLSX integrity tests and headless Chromium checks for
+search, detail dialog, horizon/filter counts, workbook browsing, backend portfolio, mobile
+layout, and the self-contained research page with network disabled. The managed browser
+blocks direct file:// navigation; the offline HTML was tested using a fresh browser document
+with network disabled instead. No public hosting or original-sheet write access is implied.

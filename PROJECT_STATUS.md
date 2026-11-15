@@ -116,3 +116,32 @@ not been established.
   for the designated workbook. No environment draft changes were reapplied or published.
 
 Earlier connectivity notes above describe the initial setup and are superseded by this section.
+
+
+## Workbook mirror and interactive dashboard
+
+The user explicitly authorized saving the published workbook in GitHub and creating an
+interactive dashboard. All ten published tabs and 203 source signal records were fetched
+and mirrored in data/workbook/ as XLSX (display values), JSON and zipped original HTML.
+The source Sheet was not modified; its formulas are not available in the published export.
+
+`dashboard/index.html` contains a complete, self-contained research UI with horizon selection,
+search/industry/decision filters, stock details, CSV export, source-tab browsing, and provenance.
+These are the existing Sheet's heuristic signals, not new trained-model recommendations.
+Its source snapshot shows 40 Position buy candidates, 20 Watch, and 203 missing fundamentals.
+Backend holdings/executions are accessed only via a local read-only server, never embedded in
+the committed dashboard. The user-authorized workbook mirror exception is documented in AGENTS.md.
+
+Local PostgreSQL suite now passes **46 tests**, with lint/format and strict mypy passing.
+The Excel copy was reopened and checked against every source tab. Formula-like cell values
+are written as text. The dashboard uses textContent for source values and escapes embedded
+JSON to prevent source text becoming executable HTML. Refresh workflow passes actionlint.
+Dependency audit reports no known vulnerabilities. Headless browser validation covers desktop
+and mobile, 203 rows, source candidate counts, missing-fundamental handling, details, workbook
+tabs, backend account and network-disabled research browsing. Direct file:// navigation is
+blocked by the managed browser policy; no attempt was made to bypass it.
+
+Use the manual GitHub workflow **Refresh workbook dashboard** to fetch/commit updates. It has
+no cron and does not run training, trades or Sheet writes. A locally running dashboard server
+is available for this session on port 8765. No publicly hosted website or paid service was
+created; the downloadable HTML is the portable interactive dashboard.
