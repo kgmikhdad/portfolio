@@ -1,0 +1,50 @@
+name: After-market research (explicit activation required)
+on:
+  workflow_dispatch:
+    inputs:
+      as_of:
+        description: Optional UTC epoch for an idempotent historical research catch-up
+        required: false
+        type: string
+  schedule:
+    - cron: '30 10 * * 1-5' # 16:00 Asia/Kolkata; exchange calendar still required
+permissions:
+  contents: read
+concurrency:
+  group: persistent-paper-research
+  cancel-in-progress: false
+jobs:
+  research:
+    if: vars.PAPER_PIPELINE_ENABLED == 'true'
+    environment: paper
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DATABASE_URL: ${{ secrets.PAPER_DATABASE_URL }}
+      INVEST_EMERGENCY_STOP: 'true'
+      INVEST_MARKET_DATA_PERMITTED: 'false'
+      UV_CACHE_DIR: ${{ github.workspace }}/.cache/uv
+      REQUESTED_AS_OF: ${{ inputs.as_of }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff
+        with:
+          version: "0.9.11"
+          python-version: "3.12"
+      - run: uv sync --frozen --no-dev
+      - name: Require explicit persistent database configuration
+        shell: bash
+        run: test -n "$DATABASE_URL"
+      - run: uv run --no-dev invest doctor
+      - name: Run screening and preserve failures
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "$REQUESTED_AS_OF" ]; then
+            uv run --no-dev invest daily --as-of "$REQUESTED_AS_OF"
+          else
+            uv run --no-dev invest daily
+          fi
+      - run: uv run --no-dev invest health

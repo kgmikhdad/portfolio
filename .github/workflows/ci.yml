@@ -1,0 +1,47 @@
+name: Tests and security
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17@sha256:846a7ddaa67a4b354ae1d21087b683901aa6113a4ed626d3787cfbf6c85e3e07
+        env:
+          POSTGRES_USER: invest
+          POSTGRES_PASSWORD: ephemeral-ci-only
+          POSTGRES_DB: invest
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U invest -d invest"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    env:
+      DATABASE_URL: postgresql+psycopg://invest:ephemeral-ci-only@localhost:5432/invest
+      UV_CACHE_DIR: ${{ github.workspace }}/.cache/uv
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+        with:
+          version: "0.9.11"
+          python-version: "3.12"
+      - run: uv sync --frozen
+      - run: uv run alembic upgrade head
+      - run: uv run alembic check
+      - run: uv run invest doctor
+      - run: uv run python scripts/check.py --postgres
+      - name: SQLite portability
+        run: uv run pytest -q
+      - name: Dependency vulnerability audit
+        run: uv run pip-audit --skip-editable --cache-dir .cache/audit
+      - name: Secret scan of Git history
+        run: >-
+          docker run --rm -v "$PWD:/repo" -w /repo
+          zricethezav/gitleaks@sha256:e1b35e12a8c6fa8901f060459cfb6b2fc4c484d3afbe3b029733a3bbfab07055
+          git --redact --no-banner .

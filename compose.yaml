@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:17@sha256:846a7ddaa67a4b354ae1d21087b683901aa6113a4ed626d3787cfbf6c85e3e07
+    environment:
+      POSTGRES_USER: invest
+      POSTGRES_DB: invest
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a local PostgreSQL password}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - invest_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U invest -d invest"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+volumes:
+  invest_pg:
