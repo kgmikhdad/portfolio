@@ -145,3 +145,27 @@ Use the manual GitHub workflow **Refresh workbook dashboard** to fetch/commit up
 no cron and does not run training, trades or Sheet writes. A locally running dashboard server
 is available for this session on port 8765. No publicly hosted website or paid service was
 created; the downloadable HTML is the portable interactive dashboard.
+
+
+## Supabase connection verification
+
+The user saved PAPER_DATABASE_URL in GitHub's paper environment. GitHub's secret-listing
+API is denied to this integration; a manual Actions job securely received the binding instead.
+The read-only check confirms **secret_present: true**, but connection is **blocked** with safe
+reason `database_hostname_not_resolved`. No successful database connection, TLS session, schema
+migration or hosted account initialization is claimed. No database writes or trades occurred.
+
+Read-only checker: src/investment_engine/hosted_database.py and scripts/check_supabase.py.
+It accepts a Supabase PostgreSQL URI, normalizes the psycopg driver, enforces verify-full TLS
+and system CA trust, and performs only read-only queries. Driver exceptions/URIs are never
+printed; safe status annotations remain accessible even when Actions log downloads are denied.
+
+Evidence: https://github.com/kgmikhdad/portfolio/actions/runs/43689941574 .
+The safe annotation confirms the binding and DNS blocker; it does not establish a bad password.
+Next external information needed: the non-secret Host field from Supabase Connect → Session
+pooler, plus confirmation the project is running. Never paste the whole connection URI or
+password into chat. After diagnosis/correction, rerun Check Supabase connection.
+
+Local lint/format/type checks and all **55 tests** pass, including nine new credential-safe
+configuration/diagnostic tests. The manual connection-check workflow passes actionlint.
+The production scheduler and local database configuration remain unchanged.
