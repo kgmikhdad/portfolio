@@ -14,17 +14,16 @@ def main() -> int:
         print(json.dumps(report))
         return 0
     except Exception as error:
-        print(
-            json.dumps(
-                {
-                    "status": "blocked",
-                    "secret_present": bool(secret),
-                    "reason": failure_code(error),
-                    "schema_changes": False,
-                    "trades_executed": 0,
-                }
-            )
-        )
+        report = {
+            "status": "blocked",
+            "secret_present": bool(secret),
+            "reason": failure_code(error),
+            "schema_changes": False,
+            "trades_executed": 0,
+        }
+        print(json.dumps(report))
+        if os.environ.get("GITHUB_ACTIONS") == "true":
+            print("::error title=Supabase readiness check::" + json.dumps(report))
         return 3
 
 

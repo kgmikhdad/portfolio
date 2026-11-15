@@ -133,3 +133,18 @@ search, detail dialog, horizon/filter counts, workbook browsing, backend portfol
 layout, and the self-contained research page with network disabled. The managed browser
 blocks direct file:// navigation; the offline HTML was tested using a fresh browser document
 with network disabled instead. No public hosting or original-sheet write access is implied.
+
+
+## Secure hosted-database connection check
+
+Save the Supabase Session pooler URI only in GitHub's `paper` environment as the secret
+`PAPER_DATABASE_URL`. Do not paste it into chat, repository files or workflow inputs.
+Run **Actions → Check Supabase connection → Run workflow**. The manual-only job confirms
+secret availability, normalizes the PostgreSQL driver, requires hostname/certificate-verified
+TLS using the system trust store, and executes a read-only `SELECT 1` and session checks.
+It never prints the connection URI/driver exception, creates tables, initializes an account
+or places orders. Only safe success/failure categories are logged.
+
+GitHub secret-listing permissions are not required: the job receives the environment secret
+directly. A successful check establishes connectivity, not completion of database migrations,
+data migration, hosted dashboard wiring or activation of research/trading schedules.
