@@ -1,0 +1,56 @@
+name: Market data pipeline
+on:
+  workflow_dispatch:
+    inputs:
+      backfill:
+        description: Refresh five-year research history (otherwise incremental)
+        type: boolean
+        default: false
+      train_models:
+        description: Train experimental price-only candidates; never approve or trade
+        type: boolean
+        default: false
+      symbol_limit:
+        description: Optional maximum stock count for diagnostics; 0 means full universe
+        type: string
+        default: '0'
+  schedule:
+    - cron: '45 10 * * 1-5' # 16:15 Asia/Kolkata; ingestion only, no order execution
+permissions:
+  contents: read
+concurrency:
+  group: supabase-market-data
+  cancel-in-progress: false
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    environment: paper
+    timeout-minutes: 20
+    env:
+      PAPER_DATABASE_URL: ${{ secrets.PAPER_DATABASE_URL }}
+      INVEST_EMERGENCY_STOP: 'true'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      DO_BACKFILL: ${{ inputs.backfill }}
+      DO_TRAIN: ${{ inputs.train_models }}
+      SYMBOL_LIMIT: ${{ inputs.symbol_limit || '0' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff
+        with:
+          version: "0.9.11"
+          python-version: "3.12"
+      - run: uv sync --frozen --no-dev
+      - name: Incremental ingestion; manual-only candidate training
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(--limit "$SYMBOL_LIMIT")
+          if [ "$DO_BACKFILL" = "true" ]; then args+=(--backfill); fi
+          if [ "$DO_TRAIN" = "true" ]; then args+=(--train-models); fi
+          uv run --no-dev python scripts/run_market_pipeline.py "${args[@]}"
+      - name: Verify read-only hosted dashboard views
+        if: always()
+        run: uv run --no-dev python scripts/check_hosted_dashboard.py

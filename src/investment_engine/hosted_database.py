@@ -8,7 +8,7 @@ from typing import Any
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes
-from sqlalchemy import Engine, create_engine, text
+from sqlalchemy import Engine, create_engine, event, text
 from sqlalchemy.engine import URL, make_url
 
 
@@ -67,6 +67,10 @@ def verified_engine(value: str) -> Engine:
         supabase_url(value),
         hide_parameters=True,
         echo=False,
+        pool_size=2,
+        max_overflow=1,
+        pool_pre_ping=True,
+        pool_recycle=300,
         connect_args={
             "sslmode": "verify-full",
             "sslrootcert": str(validated_ca_file()),
@@ -141,3 +145,26 @@ def endpoint_diagnostics(value: str, expected_host: str) -> dict[str, bool]:
         "saved_hostname_resolves": resolves(url.host or ""),
         "saved_endpoint_is_direct": bool(url.host and url.host.endswith(".supabase.co")),
     }
+
+
+def application_engine(
+    value: str, *, read_only: bool = False, schema: str = "investment_engine"
+) -> Engine:
+    """Verified TLS and private-schema routing for application runtime connections."""
+    if not re.fullmatch(r"investment_engine(?:_test_[0-9a-f]{32})?", schema):
+        raise ConnectionConfigurationError("invalid_application_schema")
+    db = verified_engine(value)
+
+    @event.listens_for(db, "connect")
+    def application_session(connection: Any, _: Any) -> None:
+        previous = connection.autocommit
+        connection.autocommit = True
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(f'SET search_path TO "{schema}"')
+                if read_only:
+                    cursor.execute("SET default_transaction_read_only TO on")
+        finally:
+            connection.autocommit = previous
+
+    return db

@@ -1,0 +1,1637 @@
+{
+  "schema_version": "1",
+  "verified_identifier_source": "https://nsearchives.nseindia.com/content/equities/EQUITY_L.csv",
+  "identifier_source_sha256": "c78517837fe47a29a2b4cbb970899c202eb45fab827134aacf8287835ec5acee",
+  "identifiers_retrieved_at": "2026-11-15T08:39:22.265149+00:00",
+  "universe_source": "user published workbook snapshot",
+  "universe_verified": false,
+  "source_stock_count": 203,
+  "official_factsheet_count": 204,
+  "unresolved_symbols": [],
+  "securities": [
+    {
+      "symbol": "TCS",
+      "isin": "INE467B01029",
+      "name": "Tata Consultancy Services Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "HINDUNILVR",
+      "isin": "INE030A01027",
+      "name": "Hindustan Unilever Limited",
+      "series": "EQ",
+      "industry": "Diversified FMCG",
+      "industry_verified": false
+    },
+    {
+      "symbol": "INFY",
+      "isin": "INE009A01021",
+      "name": "Infosys Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SUNPHARMA",
+      "isin": "INE044A01036",
+      "name": "Sun Pharmaceutical Industries Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "HCLTECH",
+      "isin": "INE860A01027",
+      "name": "HCL Technologies Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ULTRACEMCO",
+      "isin": "INE481G01011",
+      "name": "UltraTech Cement Limited",
+      "series": "EQ",
+      "industry": "Cement & Cement Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ETERNAL",
+      "isin": "INE758T01015",
+      "name": "ETERNAL LIMITED",
+      "series": "EQ",
+      "industry": "Retailing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ONGC",
+      "isin": "INE213A01029",
+      "name": "Oil & Natural Gas Corporation Limited",
+      "series": "EQ",
+      "industry": "Oil",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ASIANPAINT",
+      "isin": "INE021A01026",
+      "name": "Asian Paints Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "NESTLEIND",
+      "isin": "INE239A01024",
+      "name": "Nestle India Limited",
+      "series": "EQ",
+      "industry": "Food Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "HINDZINC",
+      "isin": "INE267A01025",
+      "name": "Hindustan Zinc Limited",
+      "series": "EQ",
+      "industry": "Non - Ferrous Metals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "DMART",
+      "isin": "INE192R01011",
+      "name": "Avenue Supermarts Limited",
+      "series": "EQ",
+      "industry": "Retailing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "IOC",
+      "isin": "INE242A01010",
+      "name": "Indian Oil Corporation Limited",
+      "series": "EQ",
+      "industry": "Petroleum Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "MOTHERSON",
+      "isin": "INE775A01035",
+      "name": "Samvardhana Motherson International Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TECHM",
+      "isin": "INE669C01036",
+      "name": "Tech Mahindra Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TRENT",
+      "isin": "INE849A01020",
+      "name": "Trent Limited",
+      "series": "EQ",
+      "industry": "Retailing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "HYUNDAI",
+      "isin": "INE0V6F01027",
+      "name": "Hyundai Motor India Limited",
+      "series": "EQ",
+      "industry": "Automobiles",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TMCV",
+      "isin": "INE1TAE01010",
+      "name": "Tata Motors Limited",
+      "series": "EQ",
+      "industry": "Agricultural, Commercial & Construction Vehicles",
+      "industry_verified": false
+    },
+    {
+      "symbol": "PIDILITIND",
+      "isin": "INE318A01026",
+      "name": "Pidilite Industries Limited",
+      "series": "EQ",
+      "industry": "Chemicals & Petrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BHEL",
+      "isin": "INE257A01026",
+      "name": "Bharat Heavy Electricals Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BPCL",
+      "isin": "INE029A01011",
+      "name": "Bharat Petroleum Corporation Limited",
+      "series": "EQ",
+      "industry": "Petroleum Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "LAURUSLABS",
+      "isin": "INE947Q01028",
+      "name": "Laurus Labs Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CGPOWER",
+      "isin": "INE067A01029",
+      "name": "CG Power and Industrial Solutions Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SIEMENS",
+      "isin": "INE003A01024",
+      "name": "Siemens Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "LENSKART",
+      "isin": "INE956O01016",
+      "name": "Lenskart Solutions Limited",
+      "series": "EQ",
+      "industry": "Retailing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "LTM",
+      "isin": "INE214T01019",
+      "name": "LTM Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "GAIL",
+      "isin": "INE129A01019",
+      "name": "GAIL (India) Limited",
+      "series": "EQ",
+      "industry": "Gas",
+      "industry_verified": false
+    },
+    {
+      "symbol": "LODHA",
+      "isin": "INE670K01029",
+      "name": "Lodha Developers Limited",
+      "series": "EQ",
+      "industry": "Realty",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CUMMINSIND",
+      "isin": "INE298A01020",
+      "name": "Cummins India Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "POLYCAB",
+      "isin": "INE455K01017",
+      "name": "Polycab India Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ZYDUSLIFE",
+      "isin": "INE010B01027",
+      "name": "Zydus Lifesciences Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "LGEINDIA",
+      "isin": "INE324D01010",
+      "name": "LG Electronics India Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "JINDALSTEL",
+      "isin": "INE749A01030",
+      "name": "JINDAL STEEL LIMITED",
+      "series": "EQ",
+      "industry": "Ferrous Metals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "MARICO",
+      "isin": "INE196A01026",
+      "name": "Marico Limited",
+      "series": "EQ",
+      "industry": "Agricultural Food & other Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "DRREDDY",
+      "isin": "INE089A01031",
+      "name": "Dr. Reddy's Laboratories Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BRITANNIA",
+      "isin": "INE216A01030",
+      "name": "Britannia Industries Limited",
+      "series": "EQ",
+      "industry": "Food Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "GVT&D",
+      "isin": "INE200A01026",
+      "name": "GE Vernova T&D India Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CIPLA",
+      "isin": "INE059A01026",
+      "name": "Cipla Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ENRIN",
+      "isin": "INE1NPP01017",
+      "name": "Siemens Energy India Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "MANKIND",
+      "isin": "INE634S01028",
+      "name": "Mankind Pharma Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "HEROMOTOCO",
+      "isin": "INE158A01026",
+      "name": "Hero MotoCorp Limited",
+      "series": "EQ",
+      "industry": "Automobiles",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TATACONSUM",
+      "isin": "INE192A01025",
+      "name": "TATA CONSUMER PRODUCTS LIMITED",
+      "series": "EQ",
+      "industry": "Agricultural Food & other Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TMPV",
+      "isin": "INE155A01022",
+      "name": "Tata Motors Passenger Vehicles Limited",
+      "series": "EQ",
+      "industry": "Automobiles",
+      "industry_verified": false
+    },
+    {
+      "symbol": "AUROPHARMA",
+      "isin": "INE406A01037",
+      "name": "Aurobindo Pharma Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "INDUSTOWER",
+      "isin": "INE121J01017",
+      "name": "Indus Towers Limited",
+      "series": "EQ",
+      "industry": "Telecom - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "VEDL",
+      "isin": "INE205A01025",
+      "name": "Vedanta Limited",
+      "series": "EQ",
+      "industry": "Diversified Metals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "PERSISTENT",
+      "isin": "INE262H01021",
+      "name": "Persistent Systems Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "AMBUJACEM",
+      "isin": "INE079A01024",
+      "name": "Ambuja Cements Limited",
+      "series": "EQ",
+      "industry": "Cement & Cement Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "MAXHEALTH",
+      "isin": "INE027H01010",
+      "name": "Max Healthcare Institute Limited",
+      "series": "EQ",
+      "industry": "Healthcare Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "LUPIN",
+      "isin": "INE326A01037",
+      "name": "Lupin Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "COFORGE",
+      "isin": "INE591G01025",
+      "name": "Coforge Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "GODREJCP",
+      "isin": "INE102D01028",
+      "name": "Godrej Consumer Products Limited",
+      "series": "EQ",
+      "industry": "Personal Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BHARTIHEXA",
+      "isin": "INE343G01021",
+      "name": "Bharti Hexacom Limited",
+      "series": "EQ",
+      "industry": "Telecom - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "UNOMINDA",
+      "isin": "INE405E01023",
+      "name": "UNO Minda Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "DIXON",
+      "isin": "INE935N01020",
+      "name": "Dixon Technologies (India) Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "GLENMARK",
+      "isin": "INE935A01035",
+      "name": "Glenmark Pharmaceuticals Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SRF",
+      "isin": "INE647A01010",
+      "name": "SRF Limited",
+      "series": "EQ",
+      "industry": "Chemicals & Petrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "WAAREEENER",
+      "isin": "INE377N01017",
+      "name": "Waaree Energies Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "HAVELLS",
+      "isin": "INE176B01034",
+      "name": "Havells India Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SAIL",
+      "isin": "INE114A01011",
+      "name": "Steel Authority of India Limited",
+      "series": "EQ",
+      "industry": "Ferrous Metals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ASTERDM",
+      "isin": "INE914M01019",
+      "name": "Aster DM Quality Care Limited",
+      "series": "EQ",
+      "industry": "Healthcare Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "APLAPOLLO",
+      "isin": "INE702C01027",
+      "name": "APL Apollo Tubes Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ALKEM",
+      "isin": "INE540L01014",
+      "name": "Alkem Laboratories Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BIOCON",
+      "isin": "INE376G01013",
+      "name": "Biocon Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "WELCORP",
+      "isin": "INE191B01025",
+      "name": "Welspun Corp Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "JSL",
+      "isin": "INE220G01021",
+      "name": "Jindal Stainless Limited",
+      "series": "EQ",
+      "industry": "Ferrous Metals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "LINDEINDIA",
+      "isin": "INE473A01011",
+      "name": "Linde India Limited",
+      "series": "EQ",
+      "industry": "Chemicals & Petrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "COROMANDEL",
+      "isin": "INE169A01031",
+      "name": "Coromandel International Limited",
+      "series": "EQ",
+      "industry": "Fertilizers & Agrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "FORTIS",
+      "isin": "INE061F01013",
+      "name": "Fortis Healthcare Limited",
+      "series": "EQ",
+      "industry": "Healthcare Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SONACOMS",
+      "isin": "INE073K01018",
+      "name": "Sona BLW Precision Forgings Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SCHAEFFLER",
+      "isin": "INE513A01022",
+      "name": "Schaeffler India Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BERGEPAINT",
+      "isin": "INE463A01038",
+      "name": "Berger Paints (I) Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "MRF",
+      "isin": "INE883A01011",
+      "name": "MRF Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SUZLON",
+      "isin": "INE040H01021",
+      "name": "Suzlon Energy Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "FLUOROCHEM",
+      "isin": "INE09N301011",
+      "name": "Gujarat Fluorochemicals Limited",
+      "series": "EQ",
+      "industry": "Chemicals & Petrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SWIGGY",
+      "isin": "INE00H001014",
+      "name": "Swiggy Limited",
+      "series": "EQ",
+      "industry": "Retailing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "NAVINFLUOR",
+      "isin": "INE048G01026",
+      "name": "Navin Fluorine International Limited",
+      "series": "EQ",
+      "industry": "Chemicals & Petrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CPPLUS",
+      "isin": "INE819V01029",
+      "name": "Aditya Infotech Limited",
+      "series": "EQ",
+      "industry": "Industrial Manufacturing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "PETRONET",
+      "isin": "INE347G01014",
+      "name": "Petronet LNG Limited",
+      "series": "EQ",
+      "industry": "Gas",
+      "industry_verified": false
+    },
+    {
+      "symbol": "IPCALAB",
+      "isin": "INE571A01038",
+      "name": "IPCA Laboratories Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "UPL",
+      "isin": "INE628A01036",
+      "name": "UPL Limited",
+      "series": "EQ",
+      "industry": "Fertilizers & Agrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "MPHASIS",
+      "isin": "INE356A01018",
+      "name": "MphasiS Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "COLPAL",
+      "isin": "INE259A01022",
+      "name": "Colgate Palmolive (India) Limited",
+      "series": "EQ",
+      "industry": "Personal Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "PATANJALI",
+      "isin": "INE619A01035",
+      "name": "Patanjali Foods Limited",
+      "series": "EQ",
+      "industry": "Agricultural Food & other Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "VMM",
+      "isin": "INE01EA01019",
+      "name": "Vishal Mega Mart Limited",
+      "series": "EQ",
+      "industry": "Retailing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "LTTS",
+      "isin": "INE010V01017",
+      "name": "L&T Technology Services Limited",
+      "series": "EQ",
+      "industry": "IT - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "EMCURE",
+      "isin": "INE168P01015",
+      "name": "Emcure Pharmaceuticals Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BALKRISIND",
+      "isin": "INE787D01026",
+      "name": "Balkrishna Industries Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TIINDIA",
+      "isin": "INE974X01010",
+      "name": "Tube Investments of India Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "HINDCOPPER",
+      "isin": "INE531E01026",
+      "name": "Hindustan Copper Limited",
+      "series": "EQ",
+      "industry": "Non - Ferrous Metals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SUPREMEIND",
+      "isin": "INE195A01028",
+      "name": "Supreme Industries Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "RVNL",
+      "isin": "INE415G01027",
+      "name": "Rail Vikas Nigam Limited",
+      "series": "EQ",
+      "industry": "Construction",
+      "industry_verified": false
+    },
+    {
+      "symbol": "AJANTPHARM",
+      "isin": "INE031B01049",
+      "name": "Ajanta Pharma Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SAILIFE",
+      "isin": "INE570L01029",
+      "name": "Sai Life Sciences Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "MEDANTA",
+      "isin": "INE474Q01031",
+      "name": "Global Health Limited",
+      "series": "EQ",
+      "industry": "Healthcare Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "KEI",
+      "isin": "INE878B01027",
+      "name": "KEI Industries Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "VOLTAS",
+      "isin": "INE226A01021",
+      "name": "Voltas Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SHYAMMETL",
+      "isin": "INE810G01011",
+      "name": "Shyam Metalics and Energy Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ENDURANCE",
+      "isin": "INE913H01037",
+      "name": "Endurance Technologies Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "PAGEIND",
+      "isin": "INE761H01022",
+      "name": "Page Industries Limited",
+      "series": "EQ",
+      "industry": "Textiles & Apparels",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ASTRAL",
+      "isin": "INE006I01046",
+      "name": "Astral Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "THERMAX",
+      "isin": "INE152A01029",
+      "name": "Thermax Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ACUTAAS",
+      "isin": "INE00FF01025",
+      "name": "Acutaas Chemicals Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "WOCKPHARMA",
+      "isin": "INE049B01025",
+      "name": "Wockhardt Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BLUESTARCO",
+      "isin": "INE472A01039",
+      "name": "Blue Star Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CRISIL",
+      "isin": "INE007A01025",
+      "name": "Crisil Limited",
+      "series": "EQ",
+      "industry": "Finance",
+      "industry_verified": false
+    },
+    {
+      "symbol": "EXIDEIND",
+      "isin": "INE302A01020",
+      "name": "Exide Industries Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "HFCL",
+      "isin": "INE548A01028",
+      "name": "HFCL Limited",
+      "series": "BE",
+      "industry": "Telecom - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "HEXT",
+      "isin": "INE093A01041",
+      "name": "Hexaware Technologies Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "GABRIEL",
+      "isin": "INE524A01029",
+      "name": "Gabriel India Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SANSERA",
+      "isin": "INE953O01021",
+      "name": "Sansera Engineering Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SYRMA",
+      "isin": "INE0DYJ01015",
+      "name": "Syrma SGS Technology Limited",
+      "series": "EQ",
+      "industry": "Industrial Manufacturing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "IKS",
+      "isin": "INE115Q01022",
+      "name": "Inventurus Knowledge Solutions Limited",
+      "series": "EQ",
+      "industry": "IT - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "DALBHARAT",
+      "isin": "INE00R701025",
+      "name": "Dalmia Bharat Limited",
+      "series": "EQ",
+      "industry": "Cement & Cement Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "RUBICON",
+      "isin": "INE506V01022",
+      "name": "Rubicon Research Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "REDINGTON",
+      "isin": "INE891D01026",
+      "name": "Redington Limited",
+      "series": "EQ",
+      "industry": "Commercial Services & Supplies",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TATATECH",
+      "isin": "INE142M01025",
+      "name": "Tata Technologies Limited",
+      "series": "EQ",
+      "industry": "IT - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "NEULANDLAB",
+      "isin": "INE794A01010",
+      "name": "Neuland Laboratories Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "APOLLOTYRE",
+      "isin": "INE438A01022",
+      "name": "Apollo Tyres Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "MSUMI",
+      "isin": "INE0FS801015",
+      "name": "Motherson Sumi Wiring India Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "FORCEMOT",
+      "isin": "INE451A01017",
+      "name": "FORCE MOTORS LTD",
+      "series": "EQ",
+      "industry": "Automobiles",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ITI",
+      "isin": "INE248A01017",
+      "name": "ITI Limited",
+      "series": "EQ",
+      "industry": "Telecom - Equipment & Accessories",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SCHNEIDER",
+      "isin": "INE839M01018",
+      "name": "Schneider Electric Infrastructure Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "NETWEB",
+      "isin": "INE0NT901020",
+      "name": "Netweb Technologies India Limited",
+      "series": "EQ",
+      "industry": "IT - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "JYOTICNC",
+      "isin": "INE980O01024",
+      "name": "Jyoti CNC Automation Limited",
+      "series": "EQ",
+      "industry": "Industrial Manufacturing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CEMPRO",
+      "isin": "INE686A01026",
+      "name": "Cemindia Projects Limited",
+      "series": "EQ",
+      "industry": "Construction",
+      "industry_verified": false
+    },
+    {
+      "symbol": "AMBER",
+      "isin": "INE371P01015",
+      "name": "Amber Enterprises India Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "WELSPUNLIV",
+      "isin": "INE192B01031",
+      "name": "Welspun Living Limited",
+      "series": "EQ",
+      "industry": "Textiles & Apparels",
+      "industry_verified": false
+    },
+    {
+      "symbol": "GILLETTE",
+      "isin": "INE322A01010",
+      "name": "Gillette India Limited",
+      "series": "EQ",
+      "industry": "Personal Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TIMKEN",
+      "isin": "INE325A01013",
+      "name": "Timken India Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "KPIL",
+      "isin": "INE220B01022",
+      "name": "Kalpataru Projects International Limited",
+      "series": "EQ",
+      "industry": "Construction",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ACC",
+      "isin": "INE012A01025",
+      "name": "ACC Limited",
+      "series": "EQ",
+      "industry": "Cement & Cement Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "RRKABEL",
+      "isin": "INE777K01022",
+      "name": "R R Kabel Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "GRANULES",
+      "isin": "INE101D01020",
+      "name": "Granules India Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "DEEPAKNTR",
+      "isin": "INE288B01029",
+      "name": "Deepak Nitrite Limited",
+      "series": "EQ",
+      "industry": "Chemicals & Petrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "NBCC",
+      "isin": "INE095N01031",
+      "name": "NBCC (India) Limited",
+      "series": "EQ",
+      "industry": "Construction",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CHENNPETRO",
+      "isin": "INE178A01016",
+      "name": "Chennai Petroleum Corporation Limited",
+      "series": "EQ",
+      "industry": "Petroleum Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SAGILITY",
+      "isin": "INE0W2G01015",
+      "name": "SAGILITY LIMITED",
+      "series": "EQ",
+      "industry": "IT - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TDPOWERSYS",
+      "isin": "INE419M01035",
+      "name": "TD Power Systems Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CARBORUNIV",
+      "isin": "INE120A01034",
+      "name": "Carborundum Universal Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "IGL",
+      "isin": "INE203G01027",
+      "name": "Indraprastha Gas Limited",
+      "series": "EQ",
+      "industry": "Gas",
+      "industry_verified": false
+    },
+    {
+      "symbol": "FINCABLES",
+      "isin": "INE235A01022",
+      "name": "Finolex Cables Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "RAMCOCEM",
+      "isin": "INE331A01037",
+      "name": "The Ramco Cements Limited",
+      "series": "EQ",
+      "industry": "Cement & Cement Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "EMMVEE",
+      "isin": "INE1C6T01020",
+      "name": "Emmvee Photovoltaic Power Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "KAJARIACER",
+      "isin": "INE217B01036",
+      "name": "Kajaria Ceramics Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CASTROLIND",
+      "isin": "INE172A01027",
+      "name": "Castrol India Limited",
+      "series": "EQ",
+      "industry": "Petroleum Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ELGIEQUIP",
+      "isin": "INE285A01027",
+      "name": "Elgi Equipments Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TENNIND",
+      "isin": "INE19RI01016",
+      "name": "Tenneco Clean Air India Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "SYNGENE",
+      "isin": "INE398R01022",
+      "name": "Syngene International Limited",
+      "series": "EQ",
+      "industry": "Healthcare Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "INOXINDIA",
+      "isin": "INE616N01034",
+      "name": "INOX India Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "MINDACORP",
+      "isin": "INE842C01021",
+      "name": "Minda Corporation Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "COHANCE",
+      "isin": "INE03QK01018",
+      "name": "Cohance Lifesciences Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TBOTEK",
+      "isin": "INE673O01025",
+      "name": "TBO Tek Limited",
+      "series": "EQ",
+      "industry": "Leisure Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "EMAMILTD",
+      "isin": "INE548C01032",
+      "name": "Emami Limited",
+      "series": "EQ",
+      "industry": "Personal Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ANANTRAJ",
+      "isin": "INE242C01024",
+      "name": "Anant Raj Limited",
+      "series": "EQ",
+      "industry": "Realty",
+      "industry_verified": false
+    },
+    {
+      "symbol": "JINDALSAW",
+      "isin": "INE324A01032",
+      "name": "Jindal Saw Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "NAVA",
+      "isin": "INE725A01030",
+      "name": "NAVA LIMITED",
+      "series": "EQ",
+      "industry": "Power",
+      "industry_verified": false
+    },
+    {
+      "symbol": "PGEL",
+      "isin": "INE457L01029",
+      "name": "PG Electroplast Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BBOX",
+      "isin": "INE676A01027",
+      "name": "Black Box Limited",
+      "series": "EQ",
+      "industry": "IT - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TATACHEM",
+      "isin": "INE092A01019",
+      "name": "Tata Chemicals Limited",
+      "series": "EQ",
+      "industry": "Chemicals & Petrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CHAMBLFERT",
+      "isin": "INE085A01013",
+      "name": "Chambal Fertilizers & Chemicals Limited",
+      "series": "EQ",
+      "industry": "Fertilizers & Agrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "VTL",
+      "isin": "INE825A01020",
+      "name": "Vardhman Textiles Limited",
+      "series": "EQ",
+      "industry": "Textiles & Apparels",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ATUL",
+      "isin": "INE100A01010",
+      "name": "Atul Limited",
+      "series": "EQ",
+      "industry": "Chemicals & Petrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "KPITTECH",
+      "isin": "INE04I401011",
+      "name": "KPIT Technologies Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ECLERX",
+      "isin": "INE738I01010",
+      "name": "eClerx Services Limited",
+      "series": "EQ",
+      "industry": "Commercial Services & Supplies",
+      "industry_verified": false
+    },
+    {
+      "symbol": "GPIL",
+      "isin": "INE177H01039",
+      "name": "Godawari Power And Ispat limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ANURAS",
+      "isin": "INE930P01018",
+      "name": "Anupam Rasayan India Limited",
+      "series": "EQ",
+      "industry": "Chemicals & Petrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "LTFOODS",
+      "isin": "INE818H01020",
+      "name": "LT Foods Limited",
+      "series": "EQ",
+      "industry": "Agricultural Food & other Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BHARATCOAL",
+      "isin": "INE05XR01022",
+      "name": "Bharat Coking Coal Limited",
+      "series": "EQ",
+      "industry": "Consumable Fuels",
+      "industry_verified": false
+    },
+    {
+      "symbol": "USHAMART",
+      "isin": "INE228A01035",
+      "name": "Usha Martin Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "VIJAYA",
+      "isin": "INE043W01024",
+      "name": "Vijaya Diagnostic Centre Limited",
+      "series": "EQ",
+      "industry": "Healthcare Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "FRACTAL",
+      "isin": "INE212S01015",
+      "name": "Fractal Analytics Limited",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CEATLTD",
+      "isin": "INE482A01020",
+      "name": "CEAT Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CIEINDIA",
+      "isin": "INE536H01010",
+      "name": "CIE Automotive India Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "ARE&M",
+      "isin": "INE885A01032",
+      "name": "Amara Raja Energy & Mobility Limited",
+      "series": "EQ",
+      "industry": "Auto Components",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CROMPTON",
+      "isin": "INE299U01018",
+      "name": "Crompton Greaves Consumer Electricals Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "KIRLOSBROS",
+      "isin": "INE732A01036",
+      "name": "Kirloskar Brothers Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "GALLANTT",
+      "isin": "INE297H01019",
+      "name": "Gallantt Ispat Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CONCORDBIO",
+      "isin": "INE338H01029",
+      "name": "Concord Biotech Limited",
+      "series": "EQ",
+      "industry": "Pharmaceuticals & Biotechnology",
+      "industry_verified": false
+    },
+    {
+      "symbol": "DOMS",
+      "isin": "INE321T01012",
+      "name": "DOMS Industries Limited",
+      "series": "EQ",
+      "industry": "Household Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "NUVOCO",
+      "isin": "INE118D01016",
+      "name": "Nuvoco Vistas Corporation Limited",
+      "series": "EQ",
+      "industry": "Cement & Cement Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TRIDENT",
+      "isin": "INE064C01022",
+      "name": "Trident Limited",
+      "series": "EQ",
+      "industry": "Textiles & Apparels",
+      "industry_verified": false
+    },
+    {
+      "symbol": "NSLNISP",
+      "isin": "INE0NNS01018",
+      "name": "NMDC Steel Limited",
+      "series": "EQ",
+      "industry": "Ferrous Metals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "CYIENT",
+      "isin": "INE136B01020",
+      "name": "Cyient Limited",
+      "series": "EQ",
+      "industry": "IT - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "MGL",
+      "isin": "INE002S01010",
+      "name": "Mahanagar Gas Limited",
+      "series": "EQ",
+      "industry": "Gas",
+      "industry_verified": false
+    },
+    {
+      "symbol": "KSB",
+      "isin": "INE999A01023",
+      "name": "Ksb Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "GRAVITA",
+      "isin": "INE024L01027",
+      "name": "Gravita India Limited",
+      "series": "EQ",
+      "industry": "Minerals & Mining",
+      "industry_verified": false
+    },
+    {
+      "symbol": "INDIACEM",
+      "isin": "INE383A01012",
+      "name": "The India Cements Limited",
+      "series": "EQ",
+      "industry": "Cement & Cement Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "WHIRLPOOL",
+      "isin": "INE716A01013",
+      "name": "Whirlpool of India Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TITAGARH",
+      "isin": "INE615H01020",
+      "name": "TITAGARH RAIL SYSTEMS LIMITED",
+      "series": "EQ",
+      "industry": "Industrial Manufacturing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "TARIL",
+      "isin": "INE763I01026",
+      "name": "Transformers And Rectifiers (India) Limited",
+      "series": "EQ",
+      "industry": "Electrical Equipment",
+      "industry_verified": false
+    },
+    {
+      "symbol": "JUBLINGREA",
+      "isin": "INE0BY001018",
+      "name": "Jubilant Ingrevia Limited",
+      "series": "EQ",
+      "industry": "Chemicals & Petrochemicals",
+      "industry_verified": false
+    },
+    {
+      "symbol": "HEGAM",
+      "isin": "INE545A01024",
+      "name": "HEG Advanced Materials Limited",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BSOFT",
+      "isin": "INE836A01035",
+      "name": "BIRLASOFT LIMITED",
+      "series": "EQ",
+      "industry": "IT - Software",
+      "industry_verified": false
+    },
+    {
+      "symbol": "KEC",
+      "isin": "INE389H01022",
+      "name": "KEC International Limited",
+      "series": "EQ",
+      "industry": "Construction",
+      "industry_verified": false
+    },
+    {
+      "symbol": "JWL",
+      "isin": "INE209L01016",
+      "name": "Jupiter Wagons Limited",
+      "series": "EQ",
+      "industry": "Industrial Manufacturing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "NCC",
+      "isin": "INE868B01028",
+      "name": "NCC Limited",
+      "series": "EQ",
+      "industry": "Construction",
+      "industry_verified": false
+    },
+    {
+      "symbol": "OLECTRA",
+      "isin": "INE260D01016",
+      "name": "Olectra Greentech Limited",
+      "series": "EQ",
+      "industry": "Automobiles",
+      "industry_verified": false
+    },
+    {
+      "symbol": "FIRSTCRY",
+      "isin": "INE02RE01045",
+      "name": "Brainbees Solutions Limited",
+      "series": "EQ",
+      "industry": "Retailing",
+      "industry_verified": false
+    },
+    {
+      "symbol": "BATAINDIA",
+      "isin": "INE176A01028",
+      "name": "Bata India Limited",
+      "series": "EQ",
+      "industry": "Consumer Durables",
+      "industry_verified": false
+    },
+    {
+      "symbol": "AFCONS",
+      "isin": "INE101I01011",
+      "name": "Afcons Infrastructure Limited",
+      "series": "EQ",
+      "industry": "Construction",
+      "industry_verified": false
+    },
+    {
+      "symbol": "RAILTEL",
+      "isin": "INE0DD101019",
+      "name": "Railtel Corporation Of India Limited",
+      "series": "EQ",
+      "industry": "Telecom - Services",
+      "industry_verified": false
+    },
+    {
+      "symbol": "RHIM",
+      "isin": "INE743M01012",
+      "name": "RHI MAGNESITA INDIA LIMITED",
+      "series": "EQ",
+      "industry": "Industrial Products",
+      "industry_verified": false
+    }
+  ]
+}

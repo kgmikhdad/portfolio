@@ -107,3 +107,25 @@ def test_schema_name_cannot_escape_application_namespace(db):
     else:
         with pytest.raises(HostedSetupError, match="requires_postgresql"):
             initialize_database(db)
+
+
+def test_application_runtime_uses_private_schema_and_read_only_mode(hosted_target, monkeypatch):
+    from investment_engine.hosted_database import application_engine
+
+    target, schema = hosted_target
+    initialize_database(target, schema)
+
+    def local_engine(_):
+        return create_engine(target.url, hide_parameters=True)
+
+    monkeypatch.setattr("investment_engine.hosted_database.verified_engine", local_engine)
+    app = application_engine("not-a-real-secret", read_only=True, schema=schema)
+    try:
+        with app.connect() as connection:
+            assert connection.execute(text("SELECT current_schema()")).scalar_one() == schema
+            assert connection.execute(text("SHOW transaction_read_only")).scalar_one() == "on"
+            assert (
+                connection.execute(text("SELECT cash_paise FROM accounts")).scalar_one() == 10000000
+            )
+    finally:
+        app.dispose()

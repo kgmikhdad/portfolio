@@ -60,6 +60,24 @@ def digest(value: Any) -> str:
 
 
 def persist_bars(session: Session, bars: list[PriceBar]) -> int:
+    if session.bind is not None and session.bind.dialect.name == "postgresql":
+        from sqlalchemy.dialects.postgresql import insert
+
+        count = 0
+        for offset in range(0, len(bars), 500):
+            batch_values = []
+            for bar in bars[offset : offset + 500]:
+                row = bar.model_dump(mode="json")
+                row["content_hash"] = digest({k: v for k, v in row.items() if k != "received_at"})
+                batch_values.append(row)
+            statement = (
+                insert(Bar)
+                .values(batch_values)
+                .on_conflict_do_nothing(index_elements=["isin", "day", "source", "content_hash"])
+                .returning(Bar.id)
+            )
+            count += len(session.scalars(statement).all())
+        return count
     count = 0
     for bar in bars:
         values = bar.model_dump(mode="json")
@@ -299,6 +317,18 @@ class AlphaVantageProvider:
 
 
 def persist_actions(session: Session, actions: list[dict[str, Any]]) -> int:
+    if not actions:
+        return 0
+    if session.bind is not None and session.bind.dialect.name == "postgresql":
+        from sqlalchemy.dialects.postgresql import insert
+
+        statement = (
+            insert(CorporateAction)
+            .values(actions)
+            .on_conflict_do_nothing(index_elements=["id"])
+            .returning(CorporateAction.id)
+        )
+        return len(session.scalars(statement).all())
     count = 0
     for values in actions:
         if session.get(CorporateAction, values["id"]) is None:

@@ -177,3 +177,32 @@ runtime-role configuration remains a later deployment step.
 Initialization does not transfer local price archives, connect the downloaded Atlas page to
 Supabase, execute orders or activate schedules. Keep PAPER_PIPELINE_ENABLED unset until the
 application runtime is wired to this schema and the verified TLS connection.
+
+
+## Backend-powered Streamlit app and data automation
+
+See [deployment instructions](docs/STREAMLIT_DEPLOYMENT.md). Entry point: `streamlit_app.py`.
+Unlike the earlier downloadable workbook mirror, this app reads actual backend prices, features,
+experimental forecasts and the paper ledger. It does not copy spreadsheet screening scores.
+
+```sh
+uv sync --frozen
+uv run streamlit run streamlit_app.py
+```
+
+For hosted data, supply PAPER_DATABASE_URL and a separate DASHBOARD_ACCESS_PASSWORD only through
+private runtime/Streamlit secrets. Supabase TLS and private schema routing are automatic; the
+app's DB session is read-only. Without a hosted binding, local mode is clearly labelled.
+
+GitHub **Market data pipeline** performs paced, incremental Yahoo ingestion after market hours
+at 16:15 IST weekdays. Its manual options support initial five-year backfill and experimental
+price-only candidate training. It never places orders or promotes models. Three consecutive
+failures stop the batch; partial/failed jobs remain explicit. Data is stored in Supabase, not Git.
+The initial reference universe is 203 compiled stocks with NSE-verified ISINs; index membership
+and the 204-count discrepancy remain unverified.
+
+Model research uses 20/60/120/250-session matured labels, chronological splits, purging and a
+seven-calendar-day embargo. Scaling fits training data only. Fixed-alpha ridge is compared with
+zero-return/cash and train-mean baselines on untouched test observations. Parameters, dataset/code
+hashes, flags and forecasts are registered in PostgreSQL. These experiments explicitly retain
+current-universe/retrospective-vintage limitations and have no promotion or execution authority.

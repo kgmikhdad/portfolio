@@ -16,8 +16,8 @@ if "--postgres" in sys.argv:
         raise RuntimeError("PostgreSQL settings required")
     environment["TEST_DATABASE_URL"] = url
 for command in (
-    ["ruff", "check", "src", "tests", "scripts"],
-    ["ruff", "format", "--check", "src", "tests", "scripts"],
+    ["ruff", "check", "src", "tests", "scripts", "streamlit_app.py"],
+    ["ruff", "format", "--check", "src", "tests", "scripts", "streamlit_app.py"],
     ["mypy", "src"],
     ["pytest", "-q"],
 ):

@@ -15,3 +15,5 @@ var/
 *.key
 credentials*.json
 dist/
+
+.streamlit/secrets.toml
