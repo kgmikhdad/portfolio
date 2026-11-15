@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "fetched_at": "2026-11-15T06:57:09.410610+00:00",
+  "fetched_at": "2026-11-15T07:01:42.990100+00:00",
   "source_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTFz2DtV1qZI8WLqAxgTr_mPJSK9EjrpKM3Ua3KOFqlbxVu6VPKaAJ2Q7HvvdSM5_q5tmPX8mMlcAci/pubhtml",
   "source_type": "published_google_sheet_values",
   "signal_status": "existing heuristic signals; unvalidated",
@@ -3530,7 +3530,7 @@
           ""
         ]
       ],
-      "source_sha256": "7fc2c9ad153200c05b8a25bbd6a5544b87e33ece6b6c6e84c61ca50b3b1ec21e"
+      "source_sha256": "d5ebdade4eac8ed4db8d435ca183c40d86829318c7cbc400de64833a766dfb41"
     },
     {
       "name": "Signals",
@@ -8841,7 +8841,7 @@
           ""
         ]
       ],
-      "source_sha256": "bafb112733ba620e594c2f849cf4b31390a9ee5c78a4344d0f4372a50f65a9ae"
+      "source_sha256": "070b1a035d10cea5c1f82c0a7a2fe22b23c4b68bed20424118d00e53e3f5fbbb"
     },
     {
       "name": "Indicator Audit",
@@ -13336,7 +13336,7 @@
           "13 Nov 2026"
         ]
       ],
-      "source_sha256": "e76ab6ecb74cd466541783ffd13d6b875653c628987a297d80ebcae46a8970ac"
+      "source_sha256": "a444ff2d185b759d78f3a875b926d6f12abd246b64f094229a386ae76d90ac02"
     },
     {
       "name": "Market Data",
@@ -19259,7 +19259,7 @@
           "1"
         ]
       ],
-      "source_sha256": "ea5ccde569cd6f99d390d8166b029131ee4d731354fa827ba53e3c31b2d10106"
+      "source_sha256": "10240713689962c3e5f2796af63c3a9856689851d358f941b881f331e6599b6d"
     },
     {
       "name": "Fundamentals",
@@ -22938,7 +22938,7 @@
           ""
         ]
       ],
-      "source_sha256": "7b636e4aa486ca24df08ba0ee426be4c3aae6a3a40697368766715c466735f79"
+      "source_sha256": "9e8757442189e9cc98dd423cec0ebd489c5a8410d9f71dbacd48eef26d8c8a6a"
     },
     {
       "name": "Controls",
@@ -23065,7 +23065,7 @@
           "Google's GOOGLEFINANCE help page"
         ]
       ],
-      "source_sha256": "eab23b3b89e290df63895cc7c35584d1f895be4ca74a3cb578598e2c96971940"
+      "source_sha256": "914fb8c36431473fa98ea0c9b9ba1aaedfe9c943cd8b74cd77cd1416b2d2db5e"
     },
     {
       "name": "Weekly History",
@@ -46736,7 +46736,7 @@
           "365.1"
         ]
       ],
-      "source_sha256": "f33ce5ad7bd5f14cd2a10a3ce59c2312ac1d208156cc260a089aefeb01a278d0"
+      "source_sha256": "04656be67f53d42d240bdd4cd5285894ce7f259c7c51eaca9d0dffceaeb63366"
     },
     {
       "name": "Methodology",
@@ -46828,7 +46828,7 @@
           "Use candidate signals only after independent verification, event review, and risk assessment"
         ]
       ],
-      "source_sha256": "5f008e48b4484f8d0dd65f4ce636ee092dc128920ae763c5dd9afa6a5e85784f"
+      "source_sha256": "897fbbd6240b69deeaff9e6d9999ff129d551db9fb4547be6acbab52fd1481fe"
     },
     {
       "name": "Constituents",
@@ -48467,7 +48467,7 @@
           "Industrial Products"
         ]
       ],
-      "source_sha256": "e6b4b1f252aadcf2afccac48ff492722746360b95dbf4d3bad7fd39867627482"
+      "source_sha256": "c27c50a3fcc77ffd9f248ecab4c8633c232665aad7fa35c06a7660ff28b1f2ad"
     },
     {
       "name": "About",
@@ -48506,7 +48506,7 @@
           "https://www.niftyindices.com/Factsheet/Factsheet_Nifty500_Shariah.pdf"
         ]
       ],
-      "source_sha256": "5c8e86065281d968c52f43a88e06588d45157528efbe887ad658f6716403ff2f"
+      "source_sha256": "d3efc34536bb1c456ae0630a33fc901e78b6d1a0e2939ff56fed55dc58e71767"
     }
   ],
   "signals": [
