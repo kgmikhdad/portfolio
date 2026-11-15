@@ -66,9 +66,22 @@ def dashboard_data(db: Engine) -> dict[str, Any]:
         bar_count: int = session.scalar(select(func.count()).select_from(Bar)) or 0
         latest_day: str | None = session.scalar(select(func.max(Bar.day)))
         experiments = session.scalars(
-            select(Experiment).order_by(Experiment.created_at.desc())
+            select(Experiment).order_by(Experiment.created_at.desc()).limit(16)
         ).all()
-        predictions = session.scalars(select(Prediction).order_by(Prediction.as_of.desc())).all()
+        prediction_ranks = select(
+            Prediction.id,
+            func.row_number()
+            .over(
+                partition_by=(Prediction.isin, Prediction.horizon),
+                order_by=(Prediction.as_of.desc(), Prediction.id.desc()),
+            )
+            .label("rank"),
+        ).subquery()
+        predictions = session.scalars(
+            select(Prediction)
+            .join(prediction_ranks, prediction_ranks.c.id == Prediction.id)
+            .where(prediction_ranks.c.rank == 1)
+        ).all()
         unique: dict[tuple[str, int], dict[str, Any]] = {}
         for prediction in predictions:
             key = prediction.isin, prediction.horizon
@@ -106,6 +119,8 @@ def dashboard_data(db: Engine) -> dict[str, Any]:
                 {
                     "id": e.id,
                     "model_kind": e.model_kind,
+                    "code_version": e.code_version,
+                    "parameters": e.parameters,
                     "status": e.status,
                     "created_at": e.created_at,
                     "metrics": e.metrics,

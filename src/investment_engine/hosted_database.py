@@ -162,8 +162,9 @@ def application_engine(
         try:
             with connection.cursor() as cursor:
                 cursor.execute(f'SET search_path TO "{schema}"')
-                if read_only:
-                    cursor.execute("SET default_transaction_read_only TO on")
+                cursor.execute(
+                    "SET default_transaction_read_only TO " + ("on" if read_only else "off")
+                )
         finally:
             connection.autocommit = previous
 

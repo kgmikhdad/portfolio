@@ -42,7 +42,8 @@ secure binding. Connecting GitHub to a service does not automatically copy GitHu
   bias flags and dataset lineage are visible. These are not approved ML/RL trading policies.
 - Operations: last ingestion job, failures, reference provenance and current coverage.
 
-The app caches read views for 60 seconds and price charts for five minutes. Refresh database
+The app automatically refreshes its main read view every five minutes while open, with
+five-minute read/chart caches. This limits unnecessary Supabase queries and egress. Refresh database
 view clears the read cache. It does not download or train the universe when someone opens a page.
 Supabase connections enforce the uploaded CA, hostname verification, the private application
 schema and read-only sessions. No browser receives the DB credential.
@@ -53,10 +54,14 @@ The **Market data pipeline** runs at **16:15 Asia/Kolkata on weekdays** and supp
 dispatch. Schedules are best-effort; a 20-minute job timeout limits any one run. Initial
 five-year ingestion may be slower; subsequent jobs fetch an overlapping incremental window,
 with coherent history refreshes when corporate actions require it. Three consecutive ingestion
-failures open a circuit; affected data is not fabricated. Completed per-stock work is retained.
+failures open a circuit; affected data is not fabricated. Completed per-stock work is retained. Incremental reruns skip recently completed stocks
+when a new market close could not have arrived; post-close weekday runs recheck older sessions.
+A previous timed-out run is marked interrupted, rather than successful.
 
 Manual dispatch options: backfill (five-year refresh), train_models (experimental candidates),
 symbol_limit (diagnostics; zero means all 203 reference securities). Nightly training is disabled.
+Daily inference refreshes experimental forecasts using fixed candidate parameters; it does
+not retrain or promote models. Input hashes make repeated inference idempotent.
 No order execution or live brokerage is scheduled. Keep the older PAPER_PIPELINE_ENABLED unset.
 
 At the maximum 20-minute timeout, 23 weekday runs would be 460 minutes before CI/manual work.

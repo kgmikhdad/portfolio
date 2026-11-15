@@ -12,7 +12,7 @@ from sqlalchemy import Engine, select
 
 from investment_engine.data import DataUnavailable, digest, point_in_time_bars
 from investment_engine.db import transaction
-from investment_engine.models import Account, Experiment, Prediction, Security
+from investment_engine.models import Account, Decision, Experiment, Prediction, Security
 
 
 def feature_vector(prices: list[float], index: int) -> list[float]:
@@ -95,6 +95,7 @@ def fit_candidate(series: list[dict[str, Any]], horizon: int) -> dict[str, Any]:
         "coefficients": model[1].coef_.tolist(),
         "intercept": float(model[1].intercept_),
         "horizon": horizon,
+        "residual_scale": sigma,
         "embargo_calendar_days": 7,
     }
     return {"metrics": metrics, "parameters": parameters, "predictions": forecasts}
@@ -178,3 +179,117 @@ def train_candidates(db: Engine) -> dict[str, Any]:
         "status": "experimental_only",
         "models_promoted": 0,
     }
+
+
+def refresh_predictions(db: Engine) -> dict[str, Any]:
+    """Apply fixed candidate parameters to new observations; never retrain/promote a model."""
+    from sqlalchemy import func
+
+    from investment_engine.market_pipeline import recent_feature_bars
+
+    now = int(time.time())
+    with transaction(db) as session:
+        account = session.get(Account, "paper")
+        if account is None or not account.stopped:
+            raise DataUnavailable("Stopped paper account required for experimental inference")
+        models: dict[int, Experiment] = {}
+        for experiment in session.scalars(
+            select(Experiment)
+            .where(Experiment.status == "experimental")
+            .order_by(Experiment.created_at.desc(), Experiment.id)
+        ):
+            horizon = experiment.parameters.get("horizon")
+            if horizon in (20, 60, 120, 250) and horizon not in models:
+                models[horizon] = experiment
+        if not models:
+            return {"forecasts_updated": 0, "models_retrained": 0, "models_promoted": 0}
+        residual_scales = {}
+        for experiment in models.values():
+            uncertainty = experiment.parameters.get("residual_scale")
+            if uncertainty is None:
+                uncertainty = session.scalar(
+                    select(func.max(Prediction.uncertainty)).where(
+                        Prediction.experiment_id == experiment.id
+                    )
+                )
+            residual_scales[experiment.id] = uncertainty
+        prepared = []
+        for security in session.scalars(select(Security).order_by(Security.isin)):
+            bars = recent_feature_bars(session, security.isin, now)
+            if len(bars) < 251 or now - bars[-1].published_at > 7 * 86400:
+                continue
+            if any(b.adjusted_close_paise is None for b in bars):
+                continue
+            vector = np.asarray(
+                feature_vector([float(b.adjusted_close_paise or 0) for b in bars], len(bars) - 1)
+            )
+            input_hash = digest([b.content_hash for b in bars])
+            for horizon, experiment in models.items():
+                parameters = experiment.parameters
+                mean = np.asarray(parameters["scaler_mean"])
+                scale = np.asarray(parameters["scaler_scale"])
+                coefficients = np.asarray(parameters["coefficients"])
+                if mean.shape != vector.shape or np.any(scale <= 0):
+                    raise DataUnavailable("Candidate parameter contract mismatch")
+                estimate = float(((vector - mean) / scale) @ coefficients + parameters["intercept"])
+                uncertainty = residual_scales[experiment.id]
+                if uncertainty is None or not np.isfinite(estimate) or not np.isfinite(uncertainty):
+                    continue
+                identifier = digest(
+                    {
+                        "model": experiment.id,
+                        "isin": security.isin,
+                        "inputs": input_hash,
+                        "policy": "experimental-inference-v1",
+                    }
+                )
+                prepared.append(
+                    {
+                        "id": identifier,
+                        "isin": security.isin,
+                        "experiment": experiment.id,
+                        "horizon": horizon,
+                        "estimate": estimate,
+                        "uncertainty": float(uncertainty),
+                        "input_hash": input_hash,
+                    }
+                )
+        known = (
+            set(
+                session.scalars(
+                    select(Decision.id).where(Decision.id.in_([p["id"] for p in prepared]))
+                )
+            )
+            if prepared
+            else set()
+        )
+        updates = [p for p in prepared if p["id"] not in known]
+        for prediction in updates:
+            session.add(
+                Decision(
+                    id=prediction["id"],
+                    account_id="paper",
+                    isin=prediction["isin"],
+                    at=now,
+                    kind="experimental_model_forecast",
+                    reason="Price-only candidate inference; not approved for trading",
+                    evidence={
+                        "experiment_id": prediction["experiment"],
+                        "input_dataset_hash": prediction["input_hash"],
+                        "horizon": prediction["horizon"],
+                        "estimate": prediction["estimate"],
+                        "approved": False,
+                    },
+                )
+            )
+            session.add(
+                Prediction(
+                    experiment_id=prediction["experiment"],
+                    isin=prediction["isin"],
+                    as_of=now,
+                    horizon=prediction["horizon"],
+                    estimate=prediction["estimate"],
+                    uncertainty=prediction["uncertainty"],
+                )
+            )
+    return {"forecasts_updated": len(updates), "models_retrained": 0, "models_promoted": 0}

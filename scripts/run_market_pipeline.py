@@ -7,7 +7,7 @@ import sys
 
 from investment_engine.hosted_database import application_engine, failure_code
 from investment_engine.market_pipeline import ingest_market
-from investment_engine.model_training import train_candidates
+from investment_engine.model_training import refresh_predictions, train_candidates
 
 
 def main() -> int:
@@ -22,6 +22,8 @@ def main() -> int:
         report = ingest_market(db, backfill=args.backfill, limit=args.limit)
         if args.train_models and report["succeeded"]:
             report["training"] = train_candidates(db)
+        if report["succeeded"]:
+            report["inference"] = refresh_predictions(db)
         print(json.dumps(report))
         if os.environ.get("GITHUB_ACTIONS") == "true":
             level = "notice" if report["status"] == "ingested" else "error"

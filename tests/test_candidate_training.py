@@ -46,3 +46,69 @@ def test_insufficient_or_invalid_history_blocks_training():
         fit_candidate([], 20)
     with pytest.raises(ValueError):
         feature_vector([1, 2], 1)
+
+
+def test_fixed_model_inference_is_idempotent_and_never_changes_cash(db):
+    from datetime import UTC, datetime, timedelta
+
+    from sqlalchemy import func, select
+
+    from investment_engine.broker import initialize, reconcile
+    from investment_engine.data import PriceBar, persist_bars
+    from investment_engine.db import transaction
+    from investment_engine.model_training import refresh_predictions
+    from investment_engine.models import Decision, Experiment, Prediction, Security
+
+    now = int(datetime.now(UTC).timestamp())
+    with transaction(db) as session:
+        initialize(session, "paper", now)
+        session.add(Security(isin="INE009A01021", symbol="SYNTHETIC", sector="Test"))
+        session.flush()
+        bars = []
+        for index in range(300):
+            day = datetime.now(UTC).date() - timedelta(days=300 - index)
+            bars.append(
+                PriceBar(
+                    isin="INE009A01021",
+                    day=day,
+                    source="yfinance-research",
+                    open_paise=10000,
+                    high_paise=11000,
+                    low_paise=9000,
+                    close_paise=10000,
+                    adjusted_close_paise=10000,
+                    volume=1000000,
+                    published_at=int(
+                        datetime(day.year, day.month, day.day, tzinfo=UTC).timestamp()
+                    ),
+                    received_at=now,
+                )
+            )
+        persist_bars(session, bars)
+        session.add(
+            Experiment(
+                id="synthetic-model",
+                model_kind="ridge-price-only-20",
+                dataset_hash="test",
+                code_version="test",
+                seed=42,
+                created_at=now,
+                status="experimental",
+                metrics={},
+                parameters={
+                    "horizon": 20,
+                    "scaler_mean": [0] * 6,
+                    "scaler_scale": [1] * 6,
+                    "coefficients": [0] * 6,
+                    "intercept": 0.1,
+                    "residual_scale": 0.02,
+                },
+            )
+        )
+    assert refresh_predictions(db)["forecasts_updated"] == 1
+    assert refresh_predictions(db)["forecasts_updated"] == 0
+    with transaction(db) as session:
+        assert session.scalar(select(func.count()).select_from(Prediction)) == 1
+        assert session.scalar(select(func.count()).select_from(Decision)) == 1
+        assert reconcile(session, "paper")["cash_paise"] == 10000000
+        assert reconcile(session, "paper")["orders"] == 0

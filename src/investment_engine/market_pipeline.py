@@ -28,7 +28,6 @@ from investment_engine.data import (
     paise,
     persist_actions,
     persist_bars,
-    point_in_time_bars,
 )
 from investment_engine.db import transaction
 from investment_engine.features import technical
@@ -214,6 +213,36 @@ def download_history(
     return frame_to_records(frame, isin, int(time.time()))
 
 
+def recent_feature_bars(session: Any, isin: str, at: int) -> list[Bar]:
+    # Compute current 250-session features without re-downloading five years from PostgreSQL.
+    ranked = (
+        select(
+            Bar.id,
+            func.row_number()
+            .over(partition_by=Bar.day, order_by=(Bar.received_at.desc(), Bar.id.desc()))
+            .label("rank"),
+        )
+        .where(
+            Bar.isin == isin,
+            Bar.source == "yfinance-research",
+            Bar.published_at <= at,
+            Bar.received_at <= at,
+        )
+        .subquery()
+    )
+    rows = list(
+        session.scalars(
+            select(Bar)
+            .join(ranked, ranked.c.id == Bar.id)
+            .where(ranked.c.rank == 1)
+            .order_by(Bar.day.desc())
+            .limit(300)
+        )
+    )
+    rows.reverse()
+    return rows
+
+
 def research_features(bars: list[Bar]) -> dict[str, Any]:
     if not bars or any(b.adjusted_close_paise is None for b in bars):
         raise DataUnavailable("Coherent adjusted-close history required")
@@ -261,6 +290,14 @@ def ingest_market(db: Engine, *, backfill: bool = False, limit: int = 0) -> dict
         if account is None or not account.stopped:
             raise DataUnavailable("Initialized paper account with active emergency stop required")
         reconcile(session, "paper")
+        for stale in session.scalars(
+            select(Job).where(
+                Job.id.like("market-%"), Job.status == "running", Job.started_at < started - 20 * 60
+            )
+        ):
+            stale.status = "interrupted"
+            stale.finished_at = started
+            stale.details = {**stale.details, "interruption_detected_by_next_run": True}
         known = {s.isin: s for s in session.scalars(select(Security))}
         for record in records:
             security = known.get(record["isin"])
@@ -294,6 +331,16 @@ def ingest_market(db: Engine, *, backfill: bool = False, limit: int = 0) -> dict
         last_days = dict(
             session.execute(select(Bar.isin, func.max(Bar.day)).group_by(Bar.isin)).all()
         )
+        receipt_times = dict(
+            session.execute(select(Bar.isin, func.max(Bar.received_at)).group_by(Bar.isin)).all()
+        )
+        feature_times = dict(
+            session.execute(
+                select(Feature.isin, func.max(Feature.as_of))
+                .where(Feature.definition_version == FEATURE_VERSION)
+                .group_by(Feature.isin)
+            ).all()
+        )
         session.add(
             Job(
                 id=job_id,
@@ -306,7 +353,7 @@ def ingest_market(db: Engine, *, backfill: bool = False, limit: int = 0) -> dict
                 },
             )
         )
-    succeeded, inserted, consecutive = 0, 0, 0
+    succeeded, inserted, consecutive, up_to_date = 0, 0, 0, 0
     failures: list[dict[str, str]] = []
     status = "failed"
     try:
@@ -317,6 +364,22 @@ def ingest_market(db: Engine, *, backfill: bool = False, limit: int = 0) -> dict
                     for r in records[succeeded + len(failures) :]
                 )
                 break
+            recent_receipt = receipt_times.get(record["isin"], 0)
+            local_now = datetime.now(IST)
+            possible_new_close = (
+                local_now.weekday() < 5
+                and local_now.hour >= 15
+                and last_days.get(record["isin"], "") < str(local_now.date())
+            )
+            if (
+                not backfill
+                and not possible_new_close
+                and recent_receipt >= started - 6 * 3600
+                and feature_times.get(record["isin"], 0) >= recent_receipt
+            ):
+                succeeded += 1
+                up_to_date += 1
+                continue
             try:
                 bars, actions = download_history(
                     record["symbol"], record["isin"], last_days.get(record["isin"]), backfill
@@ -330,7 +393,7 @@ def ingest_market(db: Engine, *, backfill: bool = False, limit: int = 0) -> dict
                             raise DataUnavailable("Research storage safety limit reached")
                     added = persist_bars(session, bars)
                     persist_actions(session, actions)
-                    available = point_in_time_bars(session, record["isin"], int(time.time()))
+                    available = recent_feature_bars(session, record["isin"], int(time.time()))
                     values = research_features(available)
                     dataset_hash = digest([b.content_hash for b in available])
                     existing = session.scalar(
@@ -390,6 +453,7 @@ def ingest_market(db: Engine, *, backfill: bool = False, limit: int = 0) -> dict
                 "succeeded": succeeded,
                 "failures": failures,
                 "new_bars": inserted,
+                "already_current": up_to_date,
                 "reference": reference,
                 "universe_verified": False,
                 "orders_executed": 0,
@@ -402,6 +466,7 @@ def ingest_market(db: Engine, *, backfill: bool = False, limit: int = 0) -> dict
         "failed": len(failures),
         "failure_examples": failures[:5],
         "new_bars": inserted,
+        "already_current": up_to_date,
         "universe_verified": False,
         "orders_executed": 0,
     }

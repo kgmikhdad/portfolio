@@ -8,6 +8,9 @@ from pathlib import Path
 
 from streamlit.testing.v1 import AppTest
 
+from investment_engine.dashboard_data import dashboard_data
+from investment_engine.hosted_database import application_engine
+
 
 def main() -> int:
     if not os.environ.get("PAPER_DATABASE_URL"):
@@ -27,7 +30,22 @@ def main() -> int:
             app.sidebar.radio[0].set_value(view).run(timeout=90)
             if app.exception:
                 raise RuntimeError("dashboard_view_validation_failed")
+        db = application_engine(os.environ["PAPER_DATABASE_URL"], read_only=True)
+        try:
+            snapshot = dashboard_data(db)
+        finally:
+            db.dispose()
+        last = snapshot["last_ingestion"] or {}
         report = {
+            "price_records": snapshot["bar_count"],
+            "reference_securities": snapshot["security_count"],
+            "securities_with_research": len(snapshot["research"]),
+            "latest_price_session": snapshot["latest_session"],
+            "model_versions": len(snapshot["experiments"]),
+            "latest_forecasts": len(snapshot["predictions"]),
+            "last_ingestion_status": last.get("status"),
+            "last_ingestion_succeeded": last.get("details", {}).get("succeeded"),
+            "last_ingestion_requested": last.get("details", {}).get("requested"),
             "status": "passed",
             "source": "supabase",
             "private_login": "verified",
