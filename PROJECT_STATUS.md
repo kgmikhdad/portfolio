@@ -206,3 +206,26 @@ with verify-full. Current system-trust verification is insufficient for this con
 Next external prerequisite: the public CA certificate downloaded from the user's authenticated
 Supabase dashboard; no password, private key or connection URI needs to be shared.
 Reference: https://github.com/supabase/supabase/blob/master/apps/docs/content/guides/platform/ssl-enforcement.mdx
+
+
+### Supabase connection verified with the supplied CA
+
+The user uploaded prod-ca-2021.crt downloaded from Supabase's SSL Configuration. It is a
+public CA certificate, not a private key. Inspection verified its CA flag, self-signature,
+current validity (expires 2031-04-26), and SHA-256 fingerprint
+807025ad50d4ed219d2c9c7d299c004f824eb00cf7f65afef607d07b72e6cafa. It is retained
+in config/tls/supabase-prod-ca-2021.crt with provenance notes. The checker pins that fingerprint
+and validates the certificate before passing its path to psycopg with sslmode=verify-full.
+No system-wide trust configuration or verification bypass was introduced.
+
+**The real Supabase connection check PASSED**:
+https://github.com/kgmikhdad/portfolio/actions/runs/43693906241 .
+This proves authentication, certificate/hostname-verified TLS, successful read-only SELECT 1,
+and the session checks in the checker. No credentials were read back or printed.
+The earlier URI/DNS/TLS blockers are resolved for the checker.
+
+Local lint, format, strict types and all **60 tests** pass, including CA validation and
+verification-enforcement tests. Application migrations, hosted account initialization and data
+transfer have not been performed. The existing local portfolio is unchanged, and no hosted
+trade or scheduled investment pipeline was activated. Next implementation step: prepare and
+apply the application schema safely, then initialize/reconcile the hosted paper account.

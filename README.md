@@ -141,7 +141,7 @@ Save the Supabase Session pooler URI only in GitHub's `paper` environment as the
 `PAPER_DATABASE_URL`. Do not paste it into chat, repository files or workflow inputs.
 Run **Actions → Check Supabase connection → Run workflow**. The manual-only job confirms
 secret availability, normalizes the PostgreSQL driver, requires hostname/certificate-verified
-TLS using the system trust store, and executes a read-only `SELECT 1` and session checks.
+TLS using the supplied, fingerprint-pinned Supabase CA certificate, and executes a read-only `SELECT 1` and session checks.
 It never prints the connection URI/driver exception, creates tables, initializes an account
 or places orders. Only safe success/failure categories are logged.
 
