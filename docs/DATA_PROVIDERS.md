@@ -30,3 +30,15 @@ operator attestation, not automated proof of authenticity. Imports record actual
 never backdated receipt. Reconcile compiled versus official ISIN sets, duplicates, effective
 dates and identifier changes before marking universe coverage complete. Keep the Google Sheet
 original untouched and back it up through authorized Drive access before any writes.
+
+
+## Updated verification following environment publication
+
+GitHub API, Yahoo chart data, official NSE equity master and the Nifty Indices index page
+are reachable. yfinance 1.8.0 successfully fetched 22 daily INR records for INFY.NS without
+an account or API key. Source identity was independently reconciled against NSE EQUITY_L.csv.
+The user selected this path for noncommercial educational research. This is not a verified
+exchange data licence, guaranteed availability, complete universe coverage or model acceptance.
+The reusable probe is scripts/check_yahoo.py; its data and provenance stay in ignored var/.
+The existing workbook still needs Google authorization (HTTP 401 on unauthenticated access).
+Earlier network-block observations describe the initial setup, not the current published runtime.

@@ -1,6 +1,6 @@
 # Project status — 2026-11-15
 
-**Overall: locally tested foundation; external integration blocked. Production acceptance
+**Overall: foundation tested locally and in GitHub CI; one real-data source verified; other integrations pending. Production acceptance
 has NOT been met. No real-money execution, approved predictive model or validated profitable
 strategy exists.** Full scope: [requirements](docs/PROJECT_REQUIREMENTS.md).
 
@@ -24,10 +24,12 @@ strategy exists.** Full scope: [requirements](docs/PROJECT_REQUIREMENTS.md).
   order, price counts and schema revision match. Drill database removed; source unchanged.
   Backup/key remain ignored local artifacts. No Google Drive backup upload performed.
 - Operational `invest daily` exits 3 and persists a blocked job because the security master
-  is empty. No orders are executed. This is a verified failure state, not successful research.
+  lacks verified membership/calendar. No orders are executed. This is a verified failure state, not successful research.
 
 All market, calendar and index inputs in automated tests are **synthetic test fixtures**.
-Verified genuine market coverage: **zero securities / zero price rows**. The 203/204 membership
+Verified genuine market coverage: **one security (INFY.NS), 22 daily price rows**
+from yfinance; ISIN independently reconciled against the official NSE equity master.
+Latest sample session: 2026-11-13. This does not verify Shariah eligibility or a recommendation. The 203/204 membership
 reconciliation is unresolved; no stock has been guessed or silently marked eligible.
 
 ## Release tracker
@@ -85,3 +87,32 @@ Do not paste credentials into chat or enable the scheduled pipeline before manua
 Spending: no paid service was purchased and no financial commitment was created. Existing
 cloud compute billing is not visible. Free-tier eligibility and ongoing production cost have
 not been established.
+
+
+## Latest connectivity verification (after billing repair and publication)
+
+- Repository confirmed private using GitHub API. GitHub API read/write access now works.
+- Manually dispatched **Tests and security** passed on GitHub:
+  https://github.com/kgmikhdad/portfolio/actions/runs/43685920977 . The billing lock no longer
+  prevents workflow startup. This verifies CI, not the scheduled research/trading pipeline.
+- yfinance 1.8.0 fetched 22 genuine daily INR records for INFY.NS with no Yahoo account/API key.
+  `uv run python scripts/check_yahoo.py` reproduces the research probe, validates OHLCV, checks
+  symbol/currency, reconciles ISIN against official NSE EQUITY_L.csv and persists data in the
+  existing PostgreSQL database. Source CSV, Parquet and manifest stay in ignored var/research/.
+  No index membership, sector classification or investment recommendation is inferred.
+- The sample contains one dividend ex-date, stored as unresolved corporate-action evidence.
+  No dividend cash is credited and no trade is placed. Complete action reconciliation is pending.
+- Yahoo's cookie helper endpoint is still unreachable; the library reports that limitation and
+  successfully uses its normal available path. No proxy restriction or TLS check was bypassed.
+- Existing local PostgreSQL container was stopped after the environment restart. It was restarted
+  using its original volume; its portfolio data was preserved, not reinitialized.
+- Official NSE security master and Nifty Indices index page are reachable now. The universe
+  constituent list/calendar and the 203/204 discrepancy still require investigation.
+- Existing Google workbook returns HTTP 401 without Google authorization. The Spreadsheets tag
+  is present in chat but provides no callable tools to this agent. The configured Google credential
+  file contains no usable credential fields. No workbook content was read or modified.
+- No API key is required for this Yahoo research path. Do not add Alpha Vantage credentials
+  just to fetch the same prices. Next external step: make authorized Spreadsheets tools available
+  for the designated workbook. No environment draft changes were reapplied or published.
+
+Earlier connectivity notes above describe the initial setup and are superseded by this section.

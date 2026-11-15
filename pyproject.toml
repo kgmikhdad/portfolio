@@ -15,6 +15,7 @@ dependencies = [
   "scikit-learn>=1.6,<2",
   "gymnasium>=1.0,<2",
   "cryptography>=50,<51",
+  "yfinance>=0.2.66,<2",
 ]
 
 [dependency-groups]

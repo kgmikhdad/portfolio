@@ -57,7 +57,7 @@ See [architecture](docs/ARCHITECTURE.md), [provider policy](docs/DATA_PROVIDERS.
 ## Data and execution
 
 No constituent list, market history, provider entitlement, research result or model performance
-is invented. Tests use explicitly synthetic fixtures. Current data usage rights are not verified.
+is invented. Tests use explicitly synthetic fixtures. The user has selected Yahoo/yfinance for personal educational research; no exchange-licensed feed is claimed.
 Yahoo access is opt-in and unofficial; Alpha Vantage coverage/entitlements must be established.
 No broker order endpoint is called. Research-generated candidates are never labeled approved buys.
 
@@ -72,3 +72,19 @@ Historical fundamentals/observations retain publication and actual receipt times
 as-received backtests cannot pretend newly downloaded financial history was ingested years
 ago. Historical price replay and model datasets require an explicit archival-data policy and
 survivorship/availability review before any performance claim.
+
+## Verified real-data connectivity probe
+
+After the database is running, use:
+
+```sh
+uv run python scripts/check_yahoo.py
+```
+
+This fetches a small genuine INFY.NS sample through yfinance without an account or API key,
+validates prices, checks the ISIN against the official NSE security master, stores bars in
+PostgreSQL and writes a Parquet archive/manifest under ignored var/research/. It does not
+make a recommendation, verify Shariah membership, assign a sector or place an order.
+Any detected dividend ex-dates remain unresolved evidence and are never credited as cash.
+The regular `invest ingest` command still uses the original direct-chart adapter and has
+separate permission/reference gates; this small probe does not enable the scheduled pipeline.
