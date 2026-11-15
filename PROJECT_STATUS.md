@@ -190,3 +190,19 @@ only dummy inputs. No real user password was entered into agent tools.
 
 The connection checker now rejects malformed hosts before DNS, and can report only boolean
 endpoint comparisons. Local lint/type checks and **57 tests** pass. No schema/trade changes.
+
+
+### Supabase recheck after user corrected the secret
+
+Run https://github.com/kgmikhdad/portfolio/actions/runs/43693252962 confirms the saved URI
+now parses, its host matches the supplied Session pooler host, and both expected/saved
+hostnames resolve from GitHub. The remaining error is `tls_certificate_verification_failed`.
+Database authentication has not yet been verified because TLS fails first. No schema/data
+changes or trades occurred. The helper is not needed for further troubleshooting.
+
+Official Supabase documentation says verified TLS requires downloading the server root
+certificate from Database settings → SSL Configuration and supplying it as sslrootcert
+with verify-full. Current system-trust verification is insufficient for this connection.
+Next external prerequisite: the public CA certificate downloaded from the user's authenticated
+Supabase dashboard; no password, private key or connection URI needs to be shared.
+Reference: https://github.com/supabase/supabase/blob/master/apps/docs/content/guides/platform/ssl-enforcement.mdx
